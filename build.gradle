@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.google.gms:google-services:4.3.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    appcompat = "1.0.2"
+    constraintlayout = "1.1.3"
+    junit = "4.12"
+    core_junit = "1.1.1"
+    runner = "1.2.0"
+    espresso_core = "3.2.0"
+    firebase_core = "17.0.1"
+    firebase_auth = "18.1.0"
+    firebase_firestore = "20.2.0"
+    play_services_auth = "17.0.0"
+    dagger = "2.22"
+    navigation = "2.2.0-alpha01"
+    glide = "4.9.0"
+    lifecycle = '2.2.0-alpha03'
+    paging = "2.1.0"
+}

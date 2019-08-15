@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/main_fragment">
+
+    <fragment
+        android:id="@+id/main_fragment"
+        android:name="ro.alexmamo.firebaseapp.main.main.MainFragment"
+        android:label="FirebaseApp"
+        tools:layout="@layout/fragment_main" />
+
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="ro.alexmamo.firebaseapp.main.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/products_fragment"
+        android:name="ro.alexmamo.firebaseapp.main.products.ProductsFragment"
+        android:label="Products"
+        tools:layout="@layout/fragment_products" />
+</navigation>

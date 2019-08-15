@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FirebaseApp</string>
+    <string name="sign_out_button">Sign-out</string>
+    <string name="profile">Profile</string>
+    <string name="products">Products</string>
+    <string name="search">Search</string>
+    <string name="nav_drawer_open">Open navigation drawer</string>
+    <string name="nav_drawer_close">Close navigation drawer</string>
+</resources>
