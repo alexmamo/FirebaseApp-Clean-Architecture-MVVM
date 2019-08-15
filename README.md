@@ -12,4 +12,4 @@ For displaying the data, the app uses [Android Navigation Component](https://dev
 
 To make this app work, follow the instructions given in the official documentation regarding [how to add Firebase to your project](https://firebase.google.com/docs/android/setup). Add the JSON file in your app folder, add some dummy products and see its features.
 
-See it on youtube: https://www.youtube.com/watch?v=-zpxcklPnBI
+See it on youtube: https://www.youtube.com/watch?v=esYPwbGW7YY
