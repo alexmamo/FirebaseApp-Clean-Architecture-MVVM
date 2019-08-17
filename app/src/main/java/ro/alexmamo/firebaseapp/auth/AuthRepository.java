@@ -65,4 +65,16 @@ class AuthRepository {
             }
         });
     }
+
+    interface AuthCallback {
+        void onAuthCallback(User user, boolean isNewUser);
+    }
+
+    interface UserExistenceCallback {
+        void onUserExistenceCallback(boolean userIsNew);
+    }
+
+    interface UserCreationCallback {
+        void onUserCreationCallback(boolean isUserCreated);
+    }
 }

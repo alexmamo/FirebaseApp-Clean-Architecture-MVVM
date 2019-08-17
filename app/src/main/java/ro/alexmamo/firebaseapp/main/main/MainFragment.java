@@ -32,7 +32,7 @@ public class MainFragment extends Fragment {
     private String getNameFromMainActivity() {
         MainActivity mainActivity =((MainActivity) getActivity());
         if (mainActivity != null) {
-            return mainActivity.getName();
+            return mainActivity.getNameFromIntent();
         }
         return null;
     }

@@ -25,7 +25,8 @@ import dagger.android.support.DaggerFragment;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.di.AppViewModelFactory;
 
-public class ProductsFragment extends DaggerFragment implements Observer<PagedList<Product>>, OnProductClickListener {
+public class ProductsFragment extends DaggerFragment implements Observer<PagedList<Product>>,
+        ProductsAdapter.OnProductClickListener {
     @Inject AppViewModelFactory factory;
     private View productsFragmentView;
     private RecyclerView productsRecyclerView;

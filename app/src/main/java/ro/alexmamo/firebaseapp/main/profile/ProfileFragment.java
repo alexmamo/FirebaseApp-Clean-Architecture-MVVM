@@ -43,7 +43,7 @@ public class ProfileFragment extends DaggerFragment implements Observer<User> {
     private String getUidFromMainActivity() {
         MainActivity mainActivity =((MainActivity) getActivity());
         if (mainActivity != null) {
-            return mainActivity.getUid();
+            return mainActivity.getUidFromIntent();
         }
         return null;
     }

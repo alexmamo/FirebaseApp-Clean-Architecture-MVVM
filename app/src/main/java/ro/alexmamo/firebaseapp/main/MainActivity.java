@@ -39,7 +39,6 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     @Inject FirebaseAuth auth;
     @Inject AppViewModelFactory factory;
     @Inject RequestManager requestManager;
-    private String uid, name;
     private GoogleApiClient googleApiClient;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -49,19 +48,17 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        uid = getUidFromIntent();
-        name = getNameFromIntent();
         initProfileViewModel();
         initToolBar();
         initNavigationDrawer();
         initGoogleApiClient();
     }
 
-    private String getUidFromIntent() {
+    public String getUidFromIntent() {
         return getIntent().getStringExtra("uid");
     }
 
-    private String getNameFromIntent() {
+    public String getNameFromIntent() {
         return getIntent().getStringExtra("name");
     }
 
@@ -153,14 +150,6 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
         Intent intent = new Intent(MainActivity.this, AuthActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public String getName() {
-        return name;
     }
 
     private void signOut() {

@@ -90,4 +90,8 @@ public class ProductsAdapter extends PagedListAdapter<Product, ProductsAdapter.P
             }
         }
     }
+
+    interface OnProductClickListener {
+        void onProductClick(Product clickedProduct);
+    }
 }
