@@ -105,9 +105,9 @@ public class AuthActivity extends DaggerAppCompatActivity {
             @Override
             public void onAuthCallback(User user, boolean userIsNew) {
                 if (userIsNew) {
-                    AuthActivity.this.toastWelcomeMessage(WELCOME + user.name);
+                    toastWelcomeMessage(WELCOME + user.name);
                 }
-                AuthActivity.this.checkIfUserExistsInDb(user);
+                checkIfUserExistsInDb(user);
             }
 
             @Override
@@ -126,9 +126,9 @@ public class AuthActivity extends DaggerAppCompatActivity {
             @Override
             public void onUserExistenceCallback(boolean userDoesNotExist) {
                 if (userDoesNotExist) {
-                    AuthActivity.this.createUser(user);
+                    createUser(user);
                 } else {
-                    AuthActivity.this.goToMainActivity(user.uid, user.name);
+                    goToMainActivity(user.uid, user.name);
                 }
             }
 
@@ -144,7 +144,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
             @Override
             public void onUserCreationCallback(boolean isUserCreated) {
                 if (isUserCreated) {
-                    AuthActivity.this.goToMainActivity(user.uid, user.name);
+                    goToMainActivity(user.uid, user.name);
                 }
             }
 
