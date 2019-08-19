@@ -29,6 +29,7 @@ import static ro.alexmamo.firebaseapp.utils.Constants.GOOGLE_API_CLIENT_ERROR;
 import static ro.alexmamo.firebaseapp.utils.Constants.RC_SIGN_IN;
 import static ro.alexmamo.firebaseapp.utils.Constants.TAG;
 import static ro.alexmamo.firebaseapp.utils.Constants.WELCOME;
+import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
 public class AuthActivity extends DaggerAppCompatActivity {
     @Inject AppViewModelFactory factory;
@@ -100,11 +101,19 @@ public class AuthActivity extends DaggerAppCompatActivity {
     }
 
     private void signInWithGoogle(AuthCredential googleAuthCredential) {
-        authRepository.signInWithGoogle(googleAuthCredential, (user, userIsNew) -> {
-            if (userIsNew) {
-                toastWelcomeMessage(WELCOME + user.name);
+        authRepository.signInWithGoogle(googleAuthCredential, new AuthRepository.AuthCallback() {
+            @Override
+            public void onAuthCallback(User user, boolean userIsNew) {
+                if (userIsNew) {
+                    AuthActivity.this.toastWelcomeMessage(WELCOME + user.name);
+                }
+                AuthActivity.this.checkIfUserExistsInDb(user);
             }
-            checkIfUserExistsInDb(user);
+
+            @Override
+            public void onError(String errorMessage) {
+                logErrorMessage(errorMessage);
+            }
         });
     }
 
@@ -113,19 +122,35 @@ public class AuthActivity extends DaggerAppCompatActivity {
     }
 
     private void checkIfUserExistsInDb(User user) {
-        authRepository.doesTheUserExist(user, userDoesNotExist -> {
-            if (userDoesNotExist) {
-                createUser(user);
-            } else {
-                goToMainActivity(user.uid, user.name);
+        authRepository.doesTheUserExist(user, new AuthRepository.UserExistenceCallback() {
+            @Override
+            public void onUserExistenceCallback(boolean userDoesNotExist) {
+                if (userDoesNotExist) {
+                    AuthActivity.this.createUser(user);
+                } else {
+                    AuthActivity.this.goToMainActivity(user.uid, user.name);
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                logErrorMessage(errorMessage);
             }
         });
     }
 
     private void createUser(User user) {
-        authRepository.createUser(user, isUserCreated -> {
-            if (isUserCreated) {
-                goToMainActivity(user.uid, user.name);
+        authRepository.createUser(user, new AuthRepository.UserCreationCallback() {
+            @Override
+            public void onUserCreationCallback(boolean isUserCreated) {
+                if (isUserCreated) {
+                    AuthActivity.this.goToMainActivity(user.uid, user.name);
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                logErrorMessage(errorMessage);
             }
         });
     }

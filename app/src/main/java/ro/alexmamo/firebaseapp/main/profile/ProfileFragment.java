@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -35,7 +34,7 @@ public class ProfileFragment extends DaggerFragment implements Observer<User> {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         profileFragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
         uid = getUidFromMainActivity();
-        initMessageTextView();
+        initViews();
         initProfileViewModel();
         return profileFragmentView;
     }
@@ -48,7 +47,7 @@ public class ProfileFragment extends DaggerFragment implements Observer<User> {
         return null;
     }
 
-    private void initMessageTextView() {
+    private void initViews() {
         nameTextView = profileFragmentView.findViewById(R.id.name_text_view);
         uidTextView = profileFragmentView.findViewById(R.id.uid_text_view);
         createdAtTextView = profileFragmentView.findViewById(R.id.created_at_text_view);

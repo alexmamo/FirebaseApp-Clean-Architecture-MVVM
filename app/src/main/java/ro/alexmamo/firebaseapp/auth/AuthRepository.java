@@ -39,6 +39,8 @@ class AuthRepository {
                     User user = new User(uid, userName, photoUrl);
                     callback.onAuthCallback(user, isNewUser);
                 }
+            } else {
+                callback.onError(task.getException().getMessage());
             }
         });
     }
@@ -53,6 +55,8 @@ class AuthRepository {
                 } else {
                     callback.onUserExistenceCallback(false);
                 }
+            } else {
+                callback.onError(task.getException().getMessage());
             }
         });
     }
@@ -62,19 +66,24 @@ class AuthRepository {
         uidRef.set(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 callback.onUserCreationCallback(true);
+            } else {
+                callback.onError(task.getException().getMessage());
             }
         });
     }
 
     interface AuthCallback {
         void onAuthCallback(User user, boolean isNewUser);
+        void onError(String errorMessage);
     }
 
     interface UserExistenceCallback {
         void onUserExistenceCallback(boolean userIsNew);
+        void onError(String errorMessage);
     }
 
     interface UserCreationCallback {
         void onUserCreationCallback(boolean isUserCreated);
+        void onError(String errorMessage);
     }
 }

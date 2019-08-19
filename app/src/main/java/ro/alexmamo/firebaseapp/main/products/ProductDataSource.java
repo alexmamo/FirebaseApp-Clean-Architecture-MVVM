@@ -16,6 +16,7 @@ import static ro.alexmamo.firebaseapp.utils.Constants.ASCENDING;
 import static ro.alexmamo.firebaseapp.utils.Constants.ESCAPE_CHARACTER;
 import static ro.alexmamo.firebaseapp.utils.Constants.ITEMS_PER_PAGE;
 import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCT_NAME_PROPERTY;
+import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
 @SuppressWarnings("ConstantConditions")
 public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
@@ -48,6 +49,8 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                 if (querySnapshotSize != -1) {
                     lastVisible = querySnapshot.getDocuments().get(querySnapshotSize);
                 }
+            } else {
+                logErrorMessage(task.getException().getMessage());
             }
         });
     }
@@ -75,6 +78,8 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                         lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
                     }
                 }
+            } else {
+                logErrorMessage(task.getException().getMessage());
             }
         });
     }

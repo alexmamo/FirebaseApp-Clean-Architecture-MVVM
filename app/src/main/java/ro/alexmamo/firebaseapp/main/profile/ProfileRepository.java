@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 import ro.alexmamo.firebaseapp.auth.User;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.USERS_REF;
+import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
 @SuppressWarnings("ConstantConditions")
 @Singleton
@@ -46,6 +47,8 @@ class ProfileRepository {
                     User user = document.toObject(User.class);
                     userMutableLiveData.setValue(user);
                 }
+            } else {
+                logErrorMessage(task.getException().getMessage());
             }
         });
         return userMutableLiveData;
