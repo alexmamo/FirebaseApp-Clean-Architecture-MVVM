@@ -35,7 +35,9 @@ public class ProductsAdapter extends PagedListAdapter<Product, ProductsAdapter.P
     @Override
     public void onBindViewHolder(@NonNull final ProductViewHolder productViewHolder, int position) {
         Product product = getItem(position);
-        productViewHolder.bindProduct(product);
+        if (product != null) {
+            productViewHolder.bindProduct(product);
+        }
     }
 
     private static DiffUtil.ItemCallback<Product> diffCallback = new DiffUtil.ItemCallback<Product>() {

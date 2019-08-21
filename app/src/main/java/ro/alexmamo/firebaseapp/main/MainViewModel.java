@@ -15,7 +15,7 @@ public class MainViewModel extends ViewModel {
         firebaseUserMutableLiveData = mainRepository.getFirebaseUserMutableLiveData();
     }
 
-    MutableLiveData<FirebaseUser> getFirebaseUserMutableLiveData() {
+    MutableLiveData<FirebaseUser> getFirebaseUserLiveData() {
         return firebaseUserMutableLiveData;
     }
 }

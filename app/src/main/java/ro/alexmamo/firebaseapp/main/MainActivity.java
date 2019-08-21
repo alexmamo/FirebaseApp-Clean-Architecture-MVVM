@@ -14,15 +14,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,14 +30,13 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.auth.AuthActivity;
-import ro.alexmamo.firebaseapp.di.AppViewModelFactory;
 
 public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAuth.AuthStateListener,
         NavigationView.OnNavigationItemSelectedListener, Observer<FirebaseUser> {
+    @Inject GoogleSignInClient googleSignInClient;
     @Inject FirebaseAuth auth;
-    @Inject AppViewModelFactory factory;
+    @Inject MainViewModel mainViewModel;
     @Inject RequestManager requestManager;
-    private GoogleApiClient googleApiClient;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private NavController navController;
@@ -48,10 +45,9 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initProfileViewModel();
+        getFirebaseUserFromAuthentication();
         initToolBar();
         initNavigationDrawer();
-        initGoogleApiClient();
     }
 
     public String getUidFromIntent() {
@@ -62,9 +58,8 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
         return getIntent().getStringExtra("name");
     }
 
-    private void initProfileViewModel() {
-        MainViewModel mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
-        mainViewModel.getFirebaseUserMutableLiveData().observe(this, this);
+    private void getFirebaseUserFromAuthentication() {
+        mainViewModel.getFirebaseUserLiveData().observe(this, this);
     }
 
     @Override
@@ -100,10 +95,6 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private void initGoogleApiClient() {
-        googleApiClient = new GoogleApiClient.Builder(this).addApi(Auth.GOOGLE_SIGN_IN_API).build();
     }
 
     @Override
@@ -162,24 +153,18 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     }
 
     private void signOutGoogle() {
-        if (googleApiClient.isConnected()) {
-            Auth.GoogleSignInApi.signOut(googleApiClient);
-        }
+        googleSignInClient.signOut();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        googleApiClient.connect();
         auth.addAuthStateListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (googleApiClient.isConnected()) {
-            googleApiClient.disconnect();
-        }
         auth.removeAuthStateListener(this);
     }
 

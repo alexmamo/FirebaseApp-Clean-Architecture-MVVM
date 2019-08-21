@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -20,23 +19,28 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.auth.User;
-import ro.alexmamo.firebaseapp.di.AppViewModelFactory;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
 public class ProfileFragment extends DaggerFragment implements Observer<User> {
-    @Inject AppViewModelFactory factory;
+    @Inject ProfileViewModel profileViewModel;
     private View profileFragmentView;
-    private String uid;
     private TextView nameTextView, uidTextView, createdAtTextView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         profileFragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
-        uid = getUidFromMainActivity();
         initViews();
-        initProfileViewModel();
+        String uid = getUidFromMainActivity();
+        setUserIdInProfileViewModel(uid);
+        getUserFromDatabase();
         return profileFragmentView;
+    }
+
+    private void initViews() {
+        nameTextView = profileFragmentView.findViewById(R.id.name_text_view);
+        uidTextView = profileFragmentView.findViewById(R.id.uid_text_view);
+        createdAtTextView = profileFragmentView.findViewById(R.id.created_at_text_view);
     }
 
     private String getUidFromMainActivity() {
@@ -47,15 +51,11 @@ public class ProfileFragment extends DaggerFragment implements Observer<User> {
         return null;
     }
 
-    private void initViews() {
-        nameTextView = profileFragmentView.findViewById(R.id.name_text_view);
-        uidTextView = profileFragmentView.findViewById(R.id.uid_text_view);
-        createdAtTextView = profileFragmentView.findViewById(R.id.created_at_text_view);
+    private void setUserIdInProfileViewModel(String uid) {
+        profileViewModel.setUid(uid);
     }
 
-    private void initProfileViewModel() {
-        ProfileViewModel profileViewModel = new ViewModelProvider(this, factory).get(ProfileViewModel.class);
-        profileViewModel.setUid(uid);
+    private void getUserFromDatabase() {
         profileViewModel.getUserLiveData().observe(this, this);
     }
 

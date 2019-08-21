@@ -8,7 +8,8 @@ import java.util.Date;
 
 public class Product {
     public String id, name;
-    double price;
+    @SuppressWarnings("WeakerAccess")
+    public double price;
     @SuppressWarnings("unused")
     @ServerTimestamp
     public Date date;
