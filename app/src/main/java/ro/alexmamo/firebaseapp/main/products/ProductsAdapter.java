@@ -15,6 +15,8 @@ import java.util.List;
 
 import ro.alexmamo.firebaseapp.R;
 
+import static ro.alexmamo.firebaseapp.utils.HelperClass.getProductNameFirstLetterCapital;
+
 public class ProductsAdapter extends PagedListAdapter<Product, ProductsAdapter.ProductViewHolder> {
     private Context context;
     private OnProductClickListener onProductClickListener;
@@ -74,8 +76,8 @@ public class ProductsAdapter extends PagedListAdapter<Product, ProductsAdapter.P
         }
 
         void setNameTextView(String name) {
-            String nameFirstLetterCapital = name.substring(0, 1).toUpperCase() + name.substring(1);
-            nameTextView.setText(nameFirstLetterCapital);
+            String productNameFirstLetterCapital = getProductNameFirstLetterCapital(name);
+            nameTextView.setText(productNameFirstLetterCapital);
         }
 
         void setPriceTextView(String price) {

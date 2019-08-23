@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "345423207868",
+    "firebase_url": "https://firestore-9d53c.firebaseio.com",
+    "project_id": "firestore-9d53c",
+    "storage_bucket": "firestore-9d53c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345423207868:android:caada8962e2d11a1",
+        "android_client_info": {
+          "package_name": "ro.alexmamo.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345423207868-ibq81epc9t5bbjdebmioij669tfgdhme.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ro.alexmamo.firebase",
+            "certificate_hash": "48db89b7c8e82a93eaec976a95c0070ccb3f5367"
+          }
+        },
+        {
+          "client_id": "345423207868-68j7o298mhsneruh73r76scidbpqb318.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ro.alexmamo.firebase",
+            "certificate_hash": "2e0f7c4c8d6b3bc10f780a882113fa3d65696a81"
+          }
+        },
+        {
+          "client_id": "345423207868-uh7tbcgsf3e7nrbe76bbjgf23g4l31lg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrTgB6WU-R82mu2dTO1xQkwhx2osGHKNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345423207868-uh7tbcgsf3e7nrbe76bbjgf23g4l31lg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345423207868:android:0ff2bab21421cc63",
+        "android_client_info": {
+          "package_name": "ro.alexmamo.firebaseapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345423207868-lrpb4a5v3dc6933krfi7c8n8f3mcta0d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ro.alexmamo.firebaseapp",
+            "certificate_hash": "48db89b7c8e82a93eaec976a95c0070ccb3f5367"
+          }
+        },
+        {
+          "client_id": "345423207868-uh7tbcgsf3e7nrbe76bbjgf23g4l31lg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrTgB6WU-R82mu2dTO1xQkwhx2osGHKNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345423207868-uh7tbcgsf3e7nrbe76bbjgf23g4l31lg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

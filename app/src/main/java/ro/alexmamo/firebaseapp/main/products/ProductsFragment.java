@@ -1,6 +1,5 @@
 package ro.alexmamo.firebaseapp.main.products;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,15 +21,15 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ro.alexmamo.firebaseapp.R;
-import ro.alexmamo.firebaseapp.di.AppViewModelFactory;
+
+import static ro.alexmamo.firebaseapp.utils.HelperClass.getProductNameFirstLetterCapital;
 
 public class ProductsFragment extends DaggerFragment implements Observer<PagedList<Product>>,
         ProductsAdapter.OnProductClickListener {
-    @Inject AppViewModelFactory factory;
+    @Inject ProductsViewModel viewModel;
     private View productsFragmentView;
     private RecyclerView productsRecyclerView;
     private ProductsAdapter productsAdapter;
-    private ProductsViewModel viewModel;
     private SearchView searchView;
 
     @Override
@@ -40,7 +38,6 @@ public class ProductsFragment extends DaggerFragment implements Observer<PagedLi
         setHasOptionsMenu(true);
         initProductsRecyclerView();
         initProductsAdapter();
-        initProductsViewModel();
         loadProducts();
         return productsFragmentView;
     }
@@ -52,10 +49,6 @@ public class ProductsFragment extends DaggerFragment implements Observer<PagedLi
     private void initProductsAdapter() {
         productsAdapter = new ProductsAdapter(getActivity(), this);
         productsRecyclerView.setAdapter(productsAdapter);
-    }
-
-    private void initProductsViewModel() {
-        viewModel = new ViewModelProvider(this, factory).get(ProductsViewModel.class);
     }
 
     private void loadProducts() {
@@ -84,11 +77,12 @@ public class ProductsFragment extends DaggerFragment implements Observer<PagedLi
 
     @Override
     public void onProductClick(Product clickedProduct) {
-        toastProductName(getActivity(), clickedProduct.name);
+        displayProductName(clickedProduct.name);
     }
 
-    private void toastProductName(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    private void displayProductName(String name) {
+        String productNameFirstLetterCapital = getProductNameFirstLetterCapital(name);
+        Toast.makeText(getActivity(), productNameFirstLetterCapital, Toast.LENGTH_SHORT).show();
     }
 
     @Override
