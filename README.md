@@ -1,4 +1,4 @@
-# FirebaseApp
+# FirebaseApp - Clean Architecture with MVVM.
 
 FirebaseApp, is an aplication build using Java 8 as an example for integrating two very important Firebase services: [Firebase Authenication](https://firebase.google.com/docs/auth) and [Cloud Firestore](https://firebase.google.com/docs/firestore).
 
