@@ -4,29 +4,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import ro.alexmamo.firebaseapp.R;
+import ro.alexmamo.firebaseapp.databinding.FragmentMainBinding;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
-import static ro.alexmamo.firebaseapp.utils.Constants.YOU_ARE_LOGGED_IN_AS;
-
 public class MainFragment extends Fragment {
-    private View mainFragmentView;
-    private TextView nameTextView;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        mainFragmentView = inflater.inflate(R.layout.fragment_main, container, false);
-        initMessageTextView();
+        FragmentMainBinding fragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, null, false);
+        View rootView = fragmentMainBinding.getRoot();
         String name = getNameFromMainActivity();
-        setNameTextView(name);
-        return mainFragmentView;
+        fragmentMainBinding.setName(name);
+        return rootView;
     }
 
     private String getNameFromMainActivity() {
@@ -35,14 +31,5 @@ public class MainFragment extends Fragment {
             return mainActivity.getNameFromIntent();
         }
         return null;
-    }
-
-    private void initMessageTextView() {
-        nameTextView = mainFragmentView.findViewById(R.id.name_text_view);
-    }
-
-    private void setNameTextView(String name) {
-        String message = YOU_ARE_LOGGED_IN_AS + name;
-        nameTextView.setText(message);
     }
 }

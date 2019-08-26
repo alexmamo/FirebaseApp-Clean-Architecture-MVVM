@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
@@ -30,6 +29,8 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.auth.AuthActivity;
+import ro.alexmamo.firebaseapp.databinding.ActivityMainBinding;
+import ro.alexmamo.firebaseapp.databinding.NavHeaderBinding;
 
 public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAuth.AuthStateListener,
         NavigationView.OnNavigationItemSelectedListener, Observer<FirebaseUser> {
@@ -38,13 +39,13 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     @Inject MainViewModel mainViewModel;
     @Inject RequestManager requestManager;
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
     private NavController navController;
+    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         getFirebaseUserFromAuthentication();
         initToolBar();
         initNavigationDrawer();
@@ -59,28 +60,25 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     }
 
     private void getFirebaseUserFromAuthentication() {
-        mainViewModel.getFirebaseUserLiveData().observe(this, this);
+        mainViewModel.firebaseUserMutableLiveData.observe(this, this);
     }
 
     @Override
     public void onChanged(FirebaseUser firebaseUser) {
-        View rootView = navigationView.getHeaderView(0);
+        View headerView = activityMainBinding.navigationView.getHeaderView(0);
+        NavHeaderBinding navHeaderBinding = DataBindingUtil.bind(headerView);
+        if (navHeaderBinding != null) {
+            navHeaderBinding.setFirebaseUser(firebaseUser);
 
-        ImageView profileUrlImageView = rootView.findViewById(R.id.profile_url_image_view);
-        requestManager.load(firebaseUser.getPhotoUrl())
-                .apply(RequestOptions.circleCropTransform())
-                .apply(new RequestOptions().override(250, 250))
-                .into(profileUrlImageView);
-
-        TextView nameTextView = rootView.findViewById(R.id.name_text_view);
-        nameTextView.setText(firebaseUser.getDisplayName());
-
-        TextView emailTextView = rootView.findViewById(R.id.email_text_view);
-        emailTextView.setText(firebaseUser.getEmail());
+            requestManager.load(firebaseUser.getPhotoUrl())
+                    .apply(RequestOptions.circleCropTransform())
+                    .apply(new RequestOptions().override(250, 250))
+                    .into(navHeaderBinding.profileUrlImageView);
+        }
     }
 
     private void initToolBar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = activityMainBinding.toolbar;
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -89,8 +87,8 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     }
 
     private void initNavigationDrawer() {
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigation_view);
+        drawerLayout = activityMainBinding.drawerLayout;
+        NavigationView navigationView = activityMainBinding.navigationView;
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
         NavigationUI.setupWithNavController(navigationView, navController);

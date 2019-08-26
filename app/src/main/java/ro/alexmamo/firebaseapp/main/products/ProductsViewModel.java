@@ -17,7 +17,7 @@ public class ProductsViewModel extends ViewModel {
     private PagedList.Config config;
     private CollectionReference productsRef;
     private ProductDataSourceFactory sourceFactory;
-    private LiveData<PagedList<Product>> pagedListLiveData;
+    LiveData<PagedList<Product>> pagedListLiveData;
 
     @Inject
     ProductsViewModel(PagedList.Config config, @Named(PRODUCTS_REF) CollectionReference productsRef) {
@@ -25,10 +25,6 @@ public class ProductsViewModel extends ViewModel {
         this.productsRef = productsRef;
         sourceFactory = new ProductDataSourceFactory(null, productsRef);
         pagedListLiveData = new LivePagedListBuilder<>(sourceFactory, config).build();
-    }
-
-    LiveData<PagedList<Product>> getProductPagedListLiveData() {
-        return pagedListLiveData;
     }
 
     void replaceSubscription(LifecycleOwner lifecycleOwner, String searchText) {

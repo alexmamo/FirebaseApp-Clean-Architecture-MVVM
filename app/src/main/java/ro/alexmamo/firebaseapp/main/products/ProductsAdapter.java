@@ -1,37 +1,29 @@
 package ro.alexmamo.firebaseapp.main.products;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
-import ro.alexmamo.firebaseapp.R;
-
-import static ro.alexmamo.firebaseapp.utils.HelperClass.getProductNameFirstLetterCapital;
+import ro.alexmamo.firebaseapp.databinding.ProductDataBinding;
 
 public class ProductsAdapter extends PagedListAdapter<Product, ProductsAdapter.ProductViewHolder> {
-    private Context context;
     private OnProductClickListener onProductClickListener;
 
-    ProductsAdapter(Context context, OnProductClickListener onProductClickListener) {
+    ProductsAdapter(OnProductClickListener onProductClickListener) {
         super(diffCallback);
-        this.context = context;
         this.onProductClickListener = onProductClickListener;
     }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false);
-        return new ProductViewHolder(itemView, onProductClickListener);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        ProductDataBinding productDataBinding = ProductDataBinding.inflate(layoutInflater);
+        return new ProductViewHolder(productDataBinding);
     }
 
     @Override
@@ -54,48 +46,21 @@ public class ProductsAdapter extends PagedListAdapter<Product, ProductsAdapter.P
         }
     };
 
-    class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView nameTextView, priceTextView;
-        OnProductClickListener onProductClickListener;
+    class ProductViewHolder extends RecyclerView.ViewHolder {
+        private ProductDataBinding productDataBinding;
 
-        ProductViewHolder(View itemView, OnProductClickListener onProductClickListener) {
-            super(itemView);
-            this.onProductClickListener = onProductClickListener;
-            itemView.setOnClickListener(this);
-            initViews();
-        }
-
-        void initViews() {
-            nameTextView = itemView.findViewById(R.id.name_text_view);
-            priceTextView = itemView.findViewById(R.id.price_text_view);
+        ProductViewHolder(ProductDataBinding productDataBinding) {
+            super(productDataBinding.getRoot());
+            this.productDataBinding = productDataBinding;
         }
 
         void bindProduct(Product product) {
-            setNameTextView(product.name);
-            setPriceTextView(String.valueOf(product.price));
-        }
-
-        void setNameTextView(String name) {
-            String productNameFirstLetterCapital = getProductNameFirstLetterCapital(name);
-            nameTextView.setText(productNameFirstLetterCapital);
-        }
-
-        void setPriceTextView(String price) {
-            priceTextView.setText(price);
-        }
-
-        @Override
-        public void onClick(View v) {
-            List<Product> productList = getCurrentList();
-            if(productList != null) {
-                int position = getAdapterPosition();
-                Product clickedProduct = productList.get(position);
-                onProductClickListener.onProductClick(clickedProduct);
-            }
+            productDataBinding.setProduct(product);
+            productDataBinding.setOnProductClickListener(onProductClickListener);
         }
     }
 
-    interface OnProductClickListener {
+    public interface OnProductClickListener {
         void onProductClick(Product clickedProduct);
     }
 }

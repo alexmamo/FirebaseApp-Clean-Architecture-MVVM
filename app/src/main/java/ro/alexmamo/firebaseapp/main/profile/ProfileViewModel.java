@@ -10,7 +10,7 @@ import ro.alexmamo.firebaseapp.auth.User;
 
 public class ProfileViewModel extends ViewModel {
     private ProfileRepository profileRepository;
-    private MutableLiveData<User> userLiveData;
+    MutableLiveData<User> userLiveData;
 
     @Inject
     ProfileViewModel(ProfileRepository profileRepository) {
@@ -19,9 +19,5 @@ public class ProfileViewModel extends ViewModel {
 
     void setUid(String uid) {
         userLiveData = profileRepository.addUserToLiveData(uid);
-    }
-
-    LiveData<User> getUserLiveData() {
-        return userLiveData;
     }
 }

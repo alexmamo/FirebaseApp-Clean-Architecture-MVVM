@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/name_text_view"
-        android:layout_margin="12dp"
-        android:textSize="25sp"
-        tools:text="Milk"/>
+    <data class="ProductDataBinding">
+        <variable
+            name="product"
+            type="ro.alexmamo.firebaseapp.main.products.Product" />
 
-    <TextView
-        android:layout_width="wrap_content"
+        <variable
+            name="onProductClickListener"
+            type="ro.alexmamo.firebaseapp.main.products.ProductsAdapter.OnProductClickListener" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/price_text_view"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="12dp"
-        android:textSize="25sp"
-        tools:text="$ 22.17"
-        tools:ignore="RelativeOverlap" />
-</RelativeLayout>
+        android:onClick="@{(v) -> onProductClickListener.onProductClick(product)}">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/name_text_view"
+            android:text="@{product.getName()}"
+            android:layout_margin="12dp"
+            android:textSize="25sp"
+            tools:text="Milk"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/price_text_view"
+            android:text="@{product.getPrice()}"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="12dp"
+            android:textSize="25sp"
+            tools:text="$ 22.17"
+            tools:ignore="RelativeOverlap" />
+    </RelativeLayout>
+</layout>

@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.R;
+import ro.alexmamo.firebaseapp.databinding.ActivityAuthBinding;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.RC_SIGN_IN;
@@ -26,17 +28,18 @@ import static ro.alexmamo.firebaseapp.utils.Constants.TAG;
 public class AuthActivity extends DaggerAppCompatActivity {
     @Inject GoogleSignInClient googleSignInClient;
     @Inject AuthViewModel authViewModel;
+    private ActivityAuthBinding activityAuthBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        activityAuthBinding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
         initSignInButton();
+
     }
 
     private void initSignInButton() {
-        SignInButton googleSignInButton = findViewById(R.id.google_sign_in_button);
-        googleSignInButton.setOnClickListener(view -> signIn());
+        activityAuthBinding.googleSignInButton.setOnClickListener(view -> signIn());
     }
 
     private void signIn() {
@@ -68,7 +71,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
 
     private void signInWithGoogleAuthCredential(AuthCredential googleAuthCredential) {
         authViewModel.signInWithGoogle(googleAuthCredential);
-        authViewModel.getAuthenticatedUserLiveData().observe(this, authenticatedUser -> {
+        authViewModel.authenticatedUserLiveData.observe(this, authenticatedUser -> {
             boolean authenticatedUserIsNew = authenticatedUser.isNew;
             if (authenticatedUserIsNew) {
                 createNewUser(authenticatedUser);
@@ -80,7 +83,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
 
     private void createNewUser(User authenticatedUser) {
         authViewModel.createUser(authenticatedUser);
-        authViewModel.getCreatedUserLiveData().observe(this, user -> {
+        authViewModel.createdUserLiveData.observe(this, user -> {
             if (user.isCreated) {
                 displayWelcomeMessage(user.name);
             }

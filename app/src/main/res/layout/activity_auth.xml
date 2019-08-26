@@ -6,16 +6,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/products_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-        <ProgressBar
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/google_sign_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progress_bar"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            app:buttonSize="wide"/>
     </RelativeLayout>
 </layout>

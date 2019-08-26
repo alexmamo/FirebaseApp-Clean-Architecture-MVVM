@@ -3,6 +3,7 @@ package ro.alexmamo.firebaseapp.utils;
 import android.util.Log;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.TAG;
+import static ro.alexmamo.firebaseapp.utils.Constants.YOU_ARE_LOGGED_IN_AS;
 
 public class HelperClass {
     public static void logErrorMessage(String errorMessage) {
@@ -11,5 +12,9 @@ public class HelperClass {
 
     public static String getProductNameFirstLetterCapital(String productName) {
         return productName.substring(0, 1).toUpperCase() + productName.substring(1);
+    }
+
+    public static String getLoggedInMessage(String name) {
+        return YOU_ARE_LOGGED_IN_AS + name;
     }
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,38 +22,40 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ro.alexmamo.firebaseapp.R;
+import ro.alexmamo.firebaseapp.databinding.FragmentProductsBinding;
 
 import static ro.alexmamo.firebaseapp.utils.HelperClass.getProductNameFirstLetterCapital;
 
 public class ProductsFragment extends DaggerFragment implements Observer<PagedList<Product>>,
         ProductsAdapter.OnProductClickListener {
     @Inject ProductsViewModel viewModel;
-    private View productsFragmentView;
+    private FragmentProductsBinding fragmentProductsBinding;
     private RecyclerView productsRecyclerView;
     private ProductsAdapter productsAdapter;
     private SearchView searchView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        productsFragmentView = inflater.inflate(R.layout.fragment_products, container, false);
+        fragmentProductsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_products, null, false);
+        View rootView = fragmentProductsBinding.getRoot();
         setHasOptionsMenu(true);
         initProductsRecyclerView();
         initProductsAdapter();
         loadProducts();
-        return productsFragmentView;
+        return rootView;
     }
 
     private void initProductsRecyclerView() {
-        productsRecyclerView = productsFragmentView.findViewById(R.id.products_recycler_view);
+        productsRecyclerView = fragmentProductsBinding.productsRecyclerView;
     }
 
     private void initProductsAdapter() {
-        productsAdapter = new ProductsAdapter(getActivity(), this);
+        productsAdapter = new ProductsAdapter(this);
         productsRecyclerView.setAdapter(productsAdapter);
     }
 
     private void loadProducts() {
-        viewModel.getProductPagedListLiveData().observe(this, this);
+        viewModel.pagedListLiveData.observe(this, this);
     }
 
     private void reloadProducts() {
@@ -72,7 +75,7 @@ public class ProductsFragment extends DaggerFragment implements Observer<PagedLi
     }
 
     private void hideProgressBar() {
-        productsFragmentView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        fragmentProductsBinding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
+import static ro.alexmamo.firebaseapp.utils.HelperClass.getProductNameFirstLetterCapital;
+
 public class Product {
     public String id, name;
     @SuppressWarnings("WeakerAccess")
@@ -22,6 +24,14 @@ public class Product {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    public String getName() {
+        return getProductNameFirstLetterCapital(name);
+    }
+
+    public String getPrice() {
+        return String.valueOf(price);
     }
 
     @Override
