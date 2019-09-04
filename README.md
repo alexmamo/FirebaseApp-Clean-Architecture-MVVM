@@ -6,7 +6,7 @@ The authentication process is based on using a Google account. To keep things si
 
 ![alt text](https://i.ibb.co/rkmLvqY/Db.jpg)
 
-For getting the data, the app uses [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) and the pagination is build using the [Pagination Library](https://developer.android.com/topic/libraries/architecture/paging) together with MVVM Architecture Pattern. The app has a search feature which also uses pagination. For dependency injection the app uses [Dagger2](https://dagger.dev/).
+For getting the data, the app uses [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) and the pagination is build using the [Pagination Library](https://developer.android.com/topic/libraries/architecture/paging) together with MVVM Architecture Pattern. The app has a search feature which also uses pagination. For dependency injection the app uses [Dagger2](https://dagger.dev/) and data binding to bind UI components in the layouts.
 
 For displaying the data, the app uses [Android Navigation Component](https://developer.android.com/guide/navigation/navigation-getting-started).
 
