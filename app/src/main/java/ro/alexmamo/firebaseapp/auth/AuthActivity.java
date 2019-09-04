@@ -35,7 +35,6 @@ public class AuthActivity extends DaggerAppCompatActivity {
         super.onCreate(savedInstanceState);
         activityAuthBinding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
         initSignInButton();
-
     }
 
     private void initSignInButton() {
@@ -72,11 +71,10 @@ public class AuthActivity extends DaggerAppCompatActivity {
     private void signInWithGoogleAuthCredential(AuthCredential googleAuthCredential) {
         authViewModel.signInWithGoogle(googleAuthCredential);
         authViewModel.authenticatedUserLiveData.observe(this, authenticatedUser -> {
-            boolean authenticatedUserIsNew = authenticatedUser.isNew;
-            if (authenticatedUserIsNew) {
+            if (authenticatedUser.isNew) {
                 createNewUser(authenticatedUser);
             } else {
-                goToMainActivity(authenticatedUser.uid, authenticatedUser.name);
+                goToMainActivity(authenticatedUser);
             }
         });
     }
@@ -87,7 +85,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
             if (user.isCreated) {
                 displayWelcomeMessage(user.name);
             }
-            goToMainActivity(user.uid, user.name);
+            goToMainActivity(user);
         });
     }
 
@@ -100,10 +98,9 @@ public class AuthActivity extends DaggerAppCompatActivity {
         return "Welcome " + name + "! Your account was successfully created!";
     }
 
-    private void goToMainActivity(String uid, String name) {
+    private void goToMainActivity(User user) {
         Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-        intent.putExtra("uid", uid);
-        intent.putExtra("name", name);
+        intent.putExtra("user", user);
         startActivity(intent);
         finish();
     }

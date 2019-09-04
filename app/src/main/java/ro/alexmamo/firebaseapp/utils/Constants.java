@@ -14,4 +14,5 @@ public interface Constants {
     String PRODUCT_NAME_PROPERTY = "name";
     Query.Direction ASCENDING = Query.Direction.ASCENDING;
     String YOU_ARE_LOGGED_IN_AS = "You are logged in as: ";
+    String YOUR_UID_IS = "Your Uid is: ";
 }

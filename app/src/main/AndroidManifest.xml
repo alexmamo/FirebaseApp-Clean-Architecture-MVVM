@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:fullBackupContent="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SplashActivity"
+        <activity android:name=".splash.SplashActivity"
             android:theme="@style/SplashActivityStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

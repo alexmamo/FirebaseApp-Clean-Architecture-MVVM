@@ -2,7 +2,7 @@ package ro.alexmamo.firebaseapp.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import ro.alexmamo.firebaseapp.SplashActivity;
+import ro.alexmamo.firebaseapp.splash.SplashActivity;
 import ro.alexmamo.firebaseapp.auth.AuthActivity;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 

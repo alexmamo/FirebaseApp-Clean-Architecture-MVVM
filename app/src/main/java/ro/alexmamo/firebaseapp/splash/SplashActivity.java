@@ -1,19 +1,28 @@
-package ro.alexmamo.firebaseapp;
+package ro.alexmamo.firebaseapp.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.lifecycle.Observer;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.auth.AuthActivity;
+import ro.alexmamo.firebaseapp.auth.User;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
-public class SplashActivity extends DaggerAppCompatActivity {
+import static ro.alexmamo.firebaseapp.utils.Constants.USERS_REF;
+
+public class SplashActivity extends DaggerAppCompatActivity implements Observer<User> {
     @Inject FirebaseAuth auth;
+    @Inject @Named(USERS_REF) CollectionReference usersRef;
+    @Inject SplashViewModel splashViewModel;
     private FirebaseUser firebaseUser;
 
     @Override
@@ -22,11 +31,11 @@ public class SplashActivity extends DaggerAppCompatActivity {
 
         if (!isUserAuthenticated()) {
             goToAuthInActivity();
+            finish();
         } else {
-            goToMainActivity();
+            String uid = firebaseUser.getUid();
+            getUserFromDatabase(uid);
         }
-
-        finish();
     }
 
     private boolean isUserAuthenticated() {
@@ -39,12 +48,20 @@ public class SplashActivity extends DaggerAppCompatActivity {
         startActivity(intent);
     }
 
-    private void goToMainActivity() {
+    private void getUserFromDatabase(String uid) {
+        splashViewModel.setUid(uid);
+        splashViewModel.userMutableLiveData.observe(this, this);
+    }
+
+    @Override
+    public void onChanged(User user) {
+        goToMainActivity1(user);
+        finish();
+    }
+
+    private void goToMainActivity1(User user) {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        String uid = firebaseUser.getUid();
-        String name = firebaseUser.getDisplayName();
-        intent.putExtra("uid", uid);
-        intent.putExtra("name", name);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 }

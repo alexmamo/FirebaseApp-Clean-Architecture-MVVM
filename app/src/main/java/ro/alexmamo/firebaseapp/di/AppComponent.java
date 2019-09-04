@@ -10,9 +10,8 @@ import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 import ro.alexmamo.firebaseapp.BaseApplication;
 import ro.alexmamo.firebaseapp.di.auth.AuthViewModelModule;
-import ro.alexmamo.firebaseapp.di.main.MainViewModelModule;
 import ro.alexmamo.firebaseapp.di.main.products.ProductsViewModelModule;
-import ro.alexmamo.firebaseapp.di.main.profile.ProfileViewModelModule;
+import ro.alexmamo.firebaseapp.di.splash.SplashViewModelModule;
 
 @Singleton
 @Component(
@@ -20,9 +19,8 @@ import ro.alexmamo.firebaseapp.di.main.profile.ProfileViewModelModule;
                 AndroidSupportInjectionModule.class,
                 AppModule.class,
                 ActivityBuildersModule.class,
+                SplashViewModelModule.class,
                 AuthViewModelModule.class,
-                MainViewModelModule.class,
-                ProfileViewModelModule.class,
                 ProductsViewModelModule.class
         }
 )

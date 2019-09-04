@@ -1,4 +1,4 @@
-package ro.alexmamo.firebaseapp.di.main.profile;
+package ro.alexmamo.firebaseapp.di.splash;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -8,16 +8,16 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 import ro.alexmamo.firebaseapp.di.AppViewModelFactory;
 import ro.alexmamo.firebaseapp.di.ViewModelKey;
-import ro.alexmamo.firebaseapp.main.profile.ProfileViewModel;
+import ro.alexmamo.firebaseapp.splash.SplashViewModel;
 
 @Module
 @SuppressWarnings("unused")
-public abstract class ProfileViewModelModule {
+public abstract class SplashViewModelModule {
     @Binds
     abstract ViewModelProvider.Factory bindAppViewModelFactory(AppViewModelFactory factory);
 
     @Binds
     @IntoMap
-    @ViewModelKey(ProfileViewModel.class)
-    abstract ViewModel provideProfileViewModel(ProfileViewModel viewModel);
+    @ViewModelKey(SplashViewModel.class)
+    abstract ViewModel provideAuthViewModel(SplashViewModel viewModel);
 }

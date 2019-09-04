@@ -12,7 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -29,14 +28,14 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.auth.AuthActivity;
+import ro.alexmamo.firebaseapp.auth.User;
 import ro.alexmamo.firebaseapp.databinding.ActivityMainBinding;
 import ro.alexmamo.firebaseapp.databinding.NavHeaderBinding;
 
 public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAuth.AuthStateListener,
-        NavigationView.OnNavigationItemSelectedListener, Observer<FirebaseUser> {
+        NavigationView.OnNavigationItemSelectedListener {
     @Inject GoogleSignInClient googleSignInClient;
     @Inject FirebaseAuth auth;
-    @Inject MainViewModel mainViewModel;
     @Inject RequestManager requestManager;
     private DrawerLayout drawerLayout;
     private NavController navController;
@@ -46,31 +45,23 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        getFirebaseUserFromAuthentication();
+        User user = getUserFromIntent();
+        bindUserDataToHeaderView(user);
         initToolBar();
         initNavigationDrawer();
     }
 
-    public String getUidFromIntent() {
-        return getIntent().getStringExtra("uid");
+    public User getUserFromIntent() {
+        return (User) getIntent().getSerializableExtra("user");
     }
 
-    public String getNameFromIntent() {
-        return getIntent().getStringExtra("name");
-    }
-
-    private void getFirebaseUserFromAuthentication() {
-        mainViewModel.firebaseUserMutableLiveData.observe(this, this);
-    }
-
-    @Override
-    public void onChanged(FirebaseUser firebaseUser) {
+    public void bindUserDataToHeaderView(User user) {
         View headerView = activityMainBinding.navigationView.getHeaderView(0);
         NavHeaderBinding navHeaderBinding = DataBindingUtil.bind(headerView);
         if (navHeaderBinding != null) {
-            navHeaderBinding.setFirebaseUser(firebaseUser);
+            navHeaderBinding.setUser(user);
 
-            requestManager.load(firebaseUser.getPhotoUrl())
+            requestManager.load(user.photoUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .apply(new RequestOptions().override(250, 250))
                     .into(navHeaderBinding.profileUrlImageView);

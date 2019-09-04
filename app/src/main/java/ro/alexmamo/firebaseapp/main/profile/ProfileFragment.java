@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
-
-import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ro.alexmamo.firebaseapp.R;
@@ -18,44 +15,29 @@ import ro.alexmamo.firebaseapp.auth.User;
 import ro.alexmamo.firebaseapp.databinding.FragmentProfileBinding;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
-public class ProfileFragment extends DaggerFragment implements Observer<User> {
-    @Inject ProfileViewModel profileViewModel;
+public class ProfileFragment extends DaggerFragment {
     private FragmentProfileBinding fragmentProfileBinding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         fragmentProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, null, false);
-        View rootView = fragmentProfileBinding.getRoot();
-        String uid = getUidFromMainActivity();
-        setUserIdInProfileViewModel(uid);
-        getUserFromDatabase();
-        return rootView;
+        User user = getUserFromMainActivity();
+        if (user != null) {
+            bindUserDataToNameTextView(user);
+        }
+        return fragmentProfileBinding.getRoot();
     }
 
-    private String getUidFromMainActivity() {
+    private User getUserFromMainActivity() {
         MainActivity mainActivity =((MainActivity) getActivity());
         if (mainActivity != null) {
-            return mainActivity.getUidFromIntent();
+            return mainActivity.getUserFromIntent();
         }
         return null;
     }
 
-    private void setUserIdInProfileViewModel(String uid) {
-        profileViewModel.setUid(uid);
-    }
-
-    private void getUserFromDatabase() {
-        profileViewModel.userLiveData.observe(this, this);
-    }
-
-    @Override
-    public void onChanged(User user) {
+    private void bindUserDataToNameTextView(User user) {
         fragmentProfileBinding.setUser(user);
-        hideProgressBar();
-    }
-
-    private void hideProgressBar() {
-        fragmentProfileBinding.progressBar.setVisibility(View.GONE);
     }
 }

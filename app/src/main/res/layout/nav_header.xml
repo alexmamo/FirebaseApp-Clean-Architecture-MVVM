@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="firebaseUser"
-            type="com.google.firebase.auth.FirebaseUser" />
+            name="user"
+            type="ro.alexmamo.firebaseapp.auth.User" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/name_text_view"
-            android:text="@{firebaseUser.displayName}"
+            android:text="@{user.name}"
             android:paddingTop="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             tools:text="Alex Mamo"/>
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/email_text_view"
-            android:text="@{firebaseUser.email}"
+            android:text="@{user.email}"
             android:paddingTop="8dp"
             tools:text="alexmamo@gmail.com"/>
     </LinearLayout>

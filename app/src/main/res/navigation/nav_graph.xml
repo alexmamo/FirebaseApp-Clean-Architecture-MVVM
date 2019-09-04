@@ -3,13 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/main_fragment">
-
-    <fragment
-        android:id="@+id/main_fragment"
-        android:name="ro.alexmamo.firebaseapp.main.main.MainFragment"
-        android:label="FirebaseApp"
-        tools:layout="@layout/fragment_main" />
+    app:startDestination="@id/profile_fragment">
 
     <fragment
         android:id="@+id/profile_fragment"

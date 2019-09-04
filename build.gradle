@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.1'
     }
 }
 
@@ -27,7 +27,7 @@ ext {
     core_junit = "1.1.1"
     runner = "1.2.0"
     espresso_core = "3.2.0"
-    firebase_core = "17.1.0"
+    firebase_core = "17.2.0"
     firebase_auth = "19.0.0"
     firebase_firestore = "21.0.0"
     play_services_auth = "17.0.0"
