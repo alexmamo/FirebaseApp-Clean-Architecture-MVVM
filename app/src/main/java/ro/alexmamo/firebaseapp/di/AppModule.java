@@ -17,6 +17,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ro.alexmamo.firebaseapp.R;
+import ro.alexmamo.firebaseapp.auth.User;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCTS_COLLECTION;
 import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCTS_REF;
@@ -25,6 +26,12 @@ import static ro.alexmamo.firebaseapp.utils.Constants.USERS_REF;
 
 @Module
 class AppModule {
+    @Singleton
+    @Provides
+    static User provideUser() {
+        return new User();
+    }
+
     @Singleton
     @Provides
     static GoogleSignInOptions provideGoogleSignInOptions(Application application) {

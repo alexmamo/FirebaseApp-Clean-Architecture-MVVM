@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class User implements Serializable {
-    @SuppressWarnings("WeakerAccess")
     public String uid;
     public String name;
     @SuppressWarnings("WeakerAccess")
@@ -15,6 +14,8 @@ public class User implements Serializable {
     public String photoUrl;
     @ServerTimestamp
     public Date createdAt;
+    @Exclude
+    public boolean isAuthenticated;
     @Exclude
     boolean isNew, isCreated;
 
