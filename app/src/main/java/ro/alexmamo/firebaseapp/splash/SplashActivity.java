@@ -7,21 +7,16 @@ import androidx.lifecycle.Observer;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.auth.AuthActivity;
 import ro.alexmamo.firebaseapp.auth.User;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
-import static ro.alexmamo.firebaseapp.utils.Constants.USERS_REF;
-
 public class SplashActivity extends DaggerAppCompatActivity implements Observer<User> {
     @Inject FirebaseAuth auth;
-    @Inject @Named(USERS_REF) CollectionReference usersRef;
     @Inject SplashViewModel splashViewModel;
     private FirebaseUser firebaseUser;
 
