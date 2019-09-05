@@ -16,23 +16,23 @@ import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCTS_REF;
 public class ProductsViewModel extends ViewModel {
     private PagedList.Config config;
     private CollectionReference productsRef;
-    private ProductDataSourceFactory sourceFactory;
+    private ProductsDataSourceFactory sourceFactory;
     LiveData<PagedList<Product>> pagedListLiveData;
 
     @Inject
     ProductsViewModel(PagedList.Config config, @Named(PRODUCTS_REF) CollectionReference productsRef) {
         this.config = config;
         this.productsRef = productsRef;
-        sourceFactory = new ProductDataSourceFactory(null, productsRef);
+        sourceFactory = new ProductsDataSourceFactory(null, productsRef);
         pagedListLiveData = new LivePagedListBuilder<>(sourceFactory, config).build();
     }
 
     void replaceSubscription(LifecycleOwner lifecycleOwner, String searchText) {
         pagedListLiveData.removeObservers(lifecycleOwner);
         if (searchText == null) {
-            sourceFactory = new ProductDataSourceFactory(null, productsRef);
+            sourceFactory = new ProductsDataSourceFactory(null, productsRef);
         } else {
-            sourceFactory = new ProductDataSourceFactory(searchText, productsRef);
+            sourceFactory = new ProductsDataSourceFactory(searchText, productsRef);
         }
         pagedListLiveData = new LivePagedListBuilder<>(sourceFactory, config).build();
     }

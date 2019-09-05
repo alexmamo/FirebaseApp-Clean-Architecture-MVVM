@@ -19,14 +19,14 @@ import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCT_NAME_PROPERTY;
 import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
 @SuppressWarnings("ConstantConditions")
-public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
+public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
     private String searchText;
     private Query initialQuery;
     private DocumentSnapshot lastVisible;
     private boolean lastPageReached;
     private int pageNumber = 1;
 
-    ProductDataSource(String searchText, CollectionReference productsRef) {
+    ProductsDataSource(String searchText, CollectionReference productsRef) {
         this.searchText = searchText;
         initialQuery = productsRef.orderBy(PRODUCT_NAME_PROPERTY, ASCENDING).limit(ITEMS_PER_PAGE);
     }
@@ -37,14 +37,14 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
             initialQuery = initialQuery.startAt(searchText).endAt(searchText + ESCAPE_CHARACTER);
         }
         initialQuery.get().addOnCompleteListener(task -> {
-            List<Product> productList = new ArrayList<>();
+            List<Product> initialProductList = new ArrayList<>();
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 for (QueryDocumentSnapshot document : querySnapshot) {
                     Product product = document.toObject(Product.class);
-                    productList.add(product);
+                    initialProductList.add(product);
                 }
-                callback.onResult(productList, null, pageNumber);
+                callback.onResult(initialProductList, null, pageNumber);
                 int querySnapshotSize = querySnapshot.size() - 1;
                 if (querySnapshotSize != -1) {
                     lastVisible = querySnapshot.getDocuments().get(querySnapshotSize);
@@ -62,17 +62,18 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Product> callback) {
         Query nextQuery = initialQuery.startAfter(lastVisible);
         nextQuery.get().addOnCompleteListener(task -> {
-            List<Product> productList = new ArrayList<>();
+            List<Product> nextProductList = new ArrayList<>();
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 if(!lastPageReached) {
                     for(QueryDocumentSnapshot document : querySnapshot){
-                        productList.add(document.toObject(Product.class));
+                        Product product = document.toObject(Product.class);
+                        nextProductList.add(product);
                     }
-                    callback.onResult(productList, pageNumber);
+                    callback.onResult(nextProductList, pageNumber);
                     pageNumber++;
 
-                    if (productList.size() < ITEMS_PER_PAGE) {
+                    if (nextProductList.size() < ITEMS_PER_PAGE) {
                         lastPageReached = true;
                     } else {
                         lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);

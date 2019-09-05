@@ -7,12 +7,12 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.google.firebase.firestore.CollectionReference;
 
-public class ProductDataSourceFactory extends DataSource.Factory<Integer, Product> {
+public class ProductsDataSourceFactory extends DataSource.Factory<Integer, Product> {
     private MutableLiveData<PageKeyedDataSource<Integer, Product>> liveData = new MutableLiveData<>();
     private String searchText;
     private CollectionReference productsRef;
 
-    ProductDataSourceFactory(String searchText, CollectionReference productsRef) {
+    ProductsDataSourceFactory(String searchText, CollectionReference productsRef) {
         this.searchText = searchText;
         this.productsRef = productsRef;
     }
@@ -20,8 +20,8 @@ public class ProductDataSourceFactory extends DataSource.Factory<Integer, Produc
     @NonNull
     @Override
     public DataSource<Integer, Product> create() {
-        ProductDataSource productDataSource = new ProductDataSource(searchText, productsRef);
-        liveData.postValue(productDataSource);
-        return productDataSource;
+        ProductsDataSource productsDataSource = new ProductsDataSource(searchText, productsRef);
+        liveData.postValue(productsDataSource);
+        return productsDataSource;
     }
 }
