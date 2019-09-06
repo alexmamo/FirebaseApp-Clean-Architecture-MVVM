@@ -26,8 +26,7 @@ import ro.alexmamo.firebaseapp.databinding.FragmentProductsBinding;
 
 import static ro.alexmamo.firebaseapp.utils.HelperClass.getProductNameFirstLetterCapital;
 
-public class ProductsFragment extends DaggerFragment implements Observer<PagedList<Product>>,
-        ProductsAdapter.OnProductClickListener {
+public class ProductsFragment extends DaggerFragment implements Observer<PagedList<Product>>, ProductsAdapter.OnProductClickListener {
     @Inject ProductsViewModel viewModel;
     private FragmentProductsBinding fragmentProductsBinding;
     private RecyclerView productsRecyclerView;
