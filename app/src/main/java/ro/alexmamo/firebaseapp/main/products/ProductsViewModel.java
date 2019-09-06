@@ -17,7 +17,7 @@ public class ProductsViewModel extends ViewModel {
     private PagedList.Config config;
     private CollectionReference productsRef;
     private ProductsDataSourceFactory sourceFactory;
-    LiveData<PagedList<Product>> pagedListLiveData;
+    private LiveData<PagedList<Product>> pagedListLiveData;
 
     @Inject
     ProductsViewModel(PagedList.Config config, @Named(PRODUCTS_REF) CollectionReference productsRef) {
