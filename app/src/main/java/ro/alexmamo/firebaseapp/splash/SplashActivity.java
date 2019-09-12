@@ -39,12 +39,12 @@ public class SplashActivity extends DaggerAppCompatActivity {
     private void getUserFromDatabase(String uid) {
         splashViewModel.setUid(uid);
         splashViewModel.userMutableLiveData.observe(this, user -> {
-            goToMainActivity1(user);
+            goToMainActivity(user);
             finish();
         });
     }
 
-    private void goToMainActivity1(User user) {
+    private void goToMainActivity(User user) {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
