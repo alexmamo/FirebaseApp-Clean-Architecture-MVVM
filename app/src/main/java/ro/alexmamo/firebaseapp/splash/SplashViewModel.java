@@ -1,11 +1,11 @@
 package ro.alexmamo.firebaseapp.splash;
 
 import androidx.lifecycle.MutableLiveData;
-        import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 
-        import javax.inject.Inject;
+import javax.inject.Inject;
 
-        import ro.alexmamo.firebaseapp.auth.User;
+import ro.alexmamo.firebaseapp.auth.User;
 
 public class SplashViewModel extends ViewModel {
     private SplashRepository splashRepository;
