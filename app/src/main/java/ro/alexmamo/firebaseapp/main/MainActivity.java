@@ -16,8 +16,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +34,6 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
         NavigationView.OnNavigationItemSelectedListener {
     @Inject GoogleSignInClient googleSignInClient;
     @Inject FirebaseAuth auth;
-    @Inject RequestManager requestManager;
     private DrawerLayout drawerLayout;
     private NavController navController;
     private ActivityMainBinding activityMainBinding;
@@ -60,11 +57,6 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
         NavHeaderBinding navHeaderBinding = DataBindingUtil.bind(headerView);
         if (navHeaderBinding != null) {
             navHeaderBinding.setUser(user);
-
-            requestManager.load(user.photoUrl)
-                    .apply(RequestOptions.circleCropTransform())
-                    .apply(new RequestOptions().override(250, 250))
-                    .into(navHeaderBinding.profileUrlImageView);
         }
     }
 
