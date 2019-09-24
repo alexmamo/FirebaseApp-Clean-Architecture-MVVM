@@ -24,6 +24,7 @@ import ro.alexmamo.firebaseapp.main.MainActivity;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.RC_SIGN_IN;
 import static ro.alexmamo.firebaseapp.utils.Constants.TAG;
+import static ro.alexmamo.firebaseapp.utils.Constants.USER;
 
 public class AuthActivity extends DaggerAppCompatActivity {
     @Inject GoogleSignInClient googleSignInClient;
@@ -100,7 +101,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
 
     private void goToMainActivity(User user) {
         Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-        intent.putExtra("user", user);
+        intent.putExtra(USER, user);
         startActivity(intent);
         finish();
     }

@@ -10,6 +10,8 @@ import ro.alexmamo.firebaseapp.auth.AuthActivity;
 import ro.alexmamo.firebaseapp.auth.User;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
+import static ro.alexmamo.firebaseapp.utils.Constants.USER;
+
 public class SplashActivity extends DaggerAppCompatActivity {
     @Inject SplashViewModel splashViewModel;
 
@@ -46,7 +48,7 @@ public class SplashActivity extends DaggerAppCompatActivity {
 
     private void goToMainActivity(User user) {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        intent.putExtra("user", user);
+        intent.putExtra(USER, user);
         startActivity(intent);
     }
 }

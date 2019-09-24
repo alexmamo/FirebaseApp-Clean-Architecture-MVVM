@@ -30,6 +30,8 @@ import ro.alexmamo.firebaseapp.auth.User;
 import ro.alexmamo.firebaseapp.databinding.ActivityMainBinding;
 import ro.alexmamo.firebaseapp.databinding.NavHeaderBinding;
 
+import static ro.alexmamo.firebaseapp.utils.Constants.USER;
+
 public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAuth.AuthStateListener,
         NavigationView.OnNavigationItemSelectedListener {
     @Inject GoogleSignInClient googleSignInClient;
@@ -49,7 +51,7 @@ public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAu
     }
 
     public User getUserFromIntent() {
-        return (User) getIntent().getSerializableExtra("user");
+        return (User) getIntent().getSerializableExtra(USER);
     }
 
     public void bindUserDataToHeaderView(User user) {

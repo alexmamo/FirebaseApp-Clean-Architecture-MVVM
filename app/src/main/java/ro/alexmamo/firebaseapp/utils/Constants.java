@@ -12,6 +12,7 @@ public interface Constants {
     String PRODUCTS_COLLECTION = "products";
     String PRODUCTS_REF = "productsRef";
     String PRODUCT_NAME_PROPERTY = "name";
+    String USER = "user";
     Query.Direction ASCENDING = Query.Direction.ASCENDING;
     String YOU_ARE_LOGGED_IN_AS = "You are logged in as: ";
     String YOUR_UID_IS = "Your Uid is: ";
