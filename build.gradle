@@ -4,7 +4,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath 'com.google.gms:google-services:4.3.2'
     }
 }
@@ -28,12 +28,12 @@ ext {
     runner = "1.2.0"
     espresso_core = "3.2.0"
     firebase_core = "17.2.0"
-    firebase_auth = "19.0.0"
+    firebase_auth = "19.1.0"
     firebase_firestore = "21.1.1"
     play_services_auth = "17.0.0"
     dagger = "2.22"
-    navigation = "2.2.0-alpha02"
+    navigation = "2.2.0-alpha03"
     glide = "4.9.0"
-    lifecycle = '2.2.0-alpha04'
+    lifecycle = '2.2.0-alpha05'
     paging = "2.1.0"
 }
