@@ -1,6 +1,6 @@
 package ro.alexmamo.firebaseapp.splash;
 
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import javax.inject.Inject;
@@ -9,8 +9,8 @@ import ro.alexmamo.firebaseapp.auth.User;
 
 public class SplashViewModel extends ViewModel {
     private SplashRepository splashRepository;
-    MutableLiveData<User> isUserAuthenticatedMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
+    LiveData<User> isUserAuthenticatedMutableLiveData;
+    LiveData<User> userMutableLiveData;
 
     @Inject
     SplashViewModel(SplashRepository splashRepository) {

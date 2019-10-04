@@ -1,7 +1,6 @@
 package ro.alexmamo.firebaseapp.auth;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.AuthCredential;
@@ -10,8 +9,8 @@ import javax.inject.Inject;
 
 public class AuthViewModel extends ViewModel {
     private AuthRepository authRepository;
-    LiveData<User> authenticatedUserLiveData = new MutableLiveData<>();
-    LiveData<User> createdUserLiveData = new MutableLiveData<>();
+    LiveData<User> authenticatedUserLiveData;
+    LiveData<User> createdUserLiveData;
 
     @Inject
     AuthViewModel(AuthRepository authRepository) {
