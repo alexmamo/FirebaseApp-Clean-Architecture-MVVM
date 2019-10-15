@@ -23,7 +23,7 @@ public class SplashActivity extends DaggerAppCompatActivity {
 
     private void checkIfUserIsAuthenticated() {
         splashViewModel.checkIfUserIsAuthenticated();
-        splashViewModel.isUserAuthenticatedMutableLiveData.observe(this, user -> {
+        splashViewModel.isUserAuthenticatedLiveData.observe(this, user -> {
             if (!user.isAuthenticated) {
                 goToAuthInActivity();
                 finish();
@@ -40,7 +40,7 @@ public class SplashActivity extends DaggerAppCompatActivity {
 
     private void getUserFromDatabase(String uid) {
         splashViewModel.setUid(uid);
-        splashViewModel.userMutableLiveData.observe(this, user -> {
+        splashViewModel.userLiveData.observe(this, user -> {
             goToMainActivity(user);
             finish();
         });

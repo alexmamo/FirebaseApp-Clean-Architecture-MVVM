@@ -9,8 +9,8 @@ import ro.alexmamo.firebaseapp.auth.User;
 
 public class SplashViewModel extends ViewModel {
     private SplashRepository splashRepository;
-    LiveData<User> isUserAuthenticatedMutableLiveData;
-    LiveData<User> userMutableLiveData;
+    LiveData<User> isUserAuthenticatedLiveData;
+    LiveData<User> userLiveData;
 
     @Inject
     SplashViewModel(SplashRepository splashRepository) {
@@ -18,10 +18,10 @@ public class SplashViewModel extends ViewModel {
     }
 
     void checkIfUserIsAuthenticated() {
-        isUserAuthenticatedMutableLiveData = splashRepository.checkIfUserIsAuthenticatedInFirebase();
+        isUserAuthenticatedLiveData = splashRepository.checkIfUserIsAuthenticatedInFirebase();
     }
 
     void setUid(String uid) {
-        userMutableLiveData = splashRepository.addUserToLiveData(uid);
+        userLiveData = splashRepository.addUserToLiveData(uid);
     }
 }
