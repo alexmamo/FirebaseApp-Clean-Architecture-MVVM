@@ -38,10 +38,10 @@ class AuthRepository {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
                     String uid = firebaseUser.getUid();
-                    String userName = firebaseUser.getDisplayName();
+                    String name = firebaseUser.getDisplayName();
                     String email = firebaseUser.getEmail();
                     String photoUrl = Objects.requireNonNull(firebaseUser.getPhotoUrl()).toString();
-                    User user = new User(uid, userName, email, photoUrl);
+                    User user = new User(uid, name, email, photoUrl);
                     user.isNew = isNewUser;
                     authenticatedUserMutableLiveData.setValue(user);
                 }
