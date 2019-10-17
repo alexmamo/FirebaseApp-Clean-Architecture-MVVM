@@ -19,7 +19,6 @@ public class User implements Serializable {
     @Exclude
     boolean isNew, isCreated;
 
-    @SuppressWarnings("unused")
     public User() {}
 
     User(String uid, String name, String email, String photoUrl) {
