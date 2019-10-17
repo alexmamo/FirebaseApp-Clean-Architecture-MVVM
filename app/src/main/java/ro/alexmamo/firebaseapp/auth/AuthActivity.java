@@ -2,7 +2,6 @@ package ro.alexmamo.firebaseapp.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -23,8 +22,8 @@ import ro.alexmamo.firebaseapp.databinding.ActivityAuthBinding;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.RC_SIGN_IN;
-import static ro.alexmamo.firebaseapp.utils.Constants.TAG;
 import static ro.alexmamo.firebaseapp.utils.Constants.USER;
+import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
 public class AuthActivity extends DaggerAppCompatActivity {
     @Inject GoogleSignInClient googleSignInClient;
@@ -58,7 +57,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
                     getGoogleAuthCredential(googleSignInAccount);
                 }
             } catch (ApiException e) {
-                Log.d(TAG, e.getMessage());
+                logErrorMessage(e.getMessage());
             }
         }
     }
