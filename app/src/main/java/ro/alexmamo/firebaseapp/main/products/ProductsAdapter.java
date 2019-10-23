@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ro.alexmamo.firebaseapp.databinding.ProductDataBinding;
 
+import static ro.alexmamo.firebaseapp.databinding.ProductDataBinding.*;
+
 public class ProductsAdapter extends PagedListAdapter<Product, ProductsAdapter.ProductViewHolder> {
     private OnProductClickListener onProductClickListener;
 
@@ -22,7 +24,7 @@ public class ProductsAdapter extends PagedListAdapter<Product, ProductsAdapter.P
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ProductDataBinding productDataBinding = ProductDataBinding.inflate(layoutInflater);
+        ProductDataBinding productDataBinding = inflate(layoutInflater);
         return new ProductViewHolder(productDataBinding);
     }
 
