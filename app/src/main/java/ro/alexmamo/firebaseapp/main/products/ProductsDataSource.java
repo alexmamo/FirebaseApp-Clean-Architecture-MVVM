@@ -36,10 +36,10 @@ public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
         if (searchText != null) {
             initialQuery = initialQuery.startAt(searchText).endAt(searchText + ESCAPE_CHARACTER);
         }
-        initialQuery.get().addOnCompleteListener(task -> {
+        initialQuery.get().addOnCompleteListener(initialTask -> {
             List<Product> initialProductList = new ArrayList<>();
-            if (task.isSuccessful()) {
-                QuerySnapshot querySnapshot = task.getResult();
+            if (initialTask.isSuccessful()) {
+                QuerySnapshot querySnapshot = initialTask.getResult();
                 for (QueryDocumentSnapshot document : querySnapshot) {
                     Product product = document.toObject(Product.class);
                     initialProductList.add(product);
@@ -50,7 +50,7 @@ public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
                     lastVisible = querySnapshot.getDocuments().get(querySnapshotSize);
                 }
             } else {
-                logErrorMessage(task.getException().getMessage());
+                logErrorMessage(initialTask.getException().getMessage());
             }
         });
     }
@@ -61,10 +61,10 @@ public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
     @Override
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Product> callback) {
         Query nextQuery = initialQuery.startAfter(lastVisible);
-        nextQuery.get().addOnCompleteListener(task -> {
+        nextQuery.get().addOnCompleteListener(nextTask -> {
             List<Product> nextProductList = new ArrayList<>();
-            if (task.isSuccessful()) {
-                QuerySnapshot querySnapshot = task.getResult();
+            if (nextTask.isSuccessful()) {
+                QuerySnapshot querySnapshot = nextTask.getResult();
                 if(!lastPageReached) {
                     for(QueryDocumentSnapshot document : querySnapshot){
                         Product product = document.toObject(Product.class);
@@ -80,7 +80,7 @@ public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
                     }
                 }
             } else {
-                logErrorMessage(task.getException().getMessage());
+                logErrorMessage(nextTask.getException().getMessage());
             }
         });
     }
