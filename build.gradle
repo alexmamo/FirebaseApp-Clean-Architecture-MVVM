@@ -29,11 +29,11 @@ ext {
     espresso_core = "3.2.0"
     firebase_core = "17.2.0"
     firebase_auth = "19.1.0"
-    firebase_firestore = "21.1.1"
+    firebase_firestore = "21.2.0"
     play_services_auth = "17.0.0"
     dagger = "2.22"
-    navigation = "2.2.0-beta01"
+    navigation = "2.2.0-rc01"
     glide = "4.9.0"
-    lifecycle = '2.2.0-beta01'
+    lifecycle = '2.2.0-rc01'
     paging = "2.1.0"
 }
