@@ -39,15 +39,15 @@ public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
         initialQuery.get().addOnCompleteListener(initialTask -> {
             List<Product> initialProductList = new ArrayList<>();
             if (initialTask.isSuccessful()) {
-                QuerySnapshot querySnapshot = initialTask.getResult();
-                for (QueryDocumentSnapshot document : querySnapshot) {
+                QuerySnapshot initialQuerySnapshot = initialTask.getResult();
+                for (QueryDocumentSnapshot document : initialQuerySnapshot) {
                     Product product = document.toObject(Product.class);
                     initialProductList.add(product);
                 }
                 callback.onResult(initialProductList, null, pageNumber);
-                int querySnapshotSize = querySnapshot.size() - 1;
-                if (querySnapshotSize != -1) {
-                    lastVisible = querySnapshot.getDocuments().get(querySnapshotSize);
+                int initialQuerySnapshotSize = initialQuerySnapshot.size() - 1;
+                if (initialQuerySnapshotSize != -1) {
+                    lastVisible = initialQuerySnapshot.getDocuments().get(initialQuerySnapshotSize);
                 }
             } else {
                 logErrorMessage(initialTask.getException().getMessage());
@@ -64,19 +64,20 @@ public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
         nextQuery.get().addOnCompleteListener(nextTask -> {
             List<Product> nextProductList = new ArrayList<>();
             if (nextTask.isSuccessful()) {
-                QuerySnapshot querySnapshot = nextTask.getResult();
+                QuerySnapshot nextQuerySnapshot = nextTask.getResult();
                 if(!lastPageReached) {
-                    for(QueryDocumentSnapshot document : querySnapshot){
+                    for(QueryDocumentSnapshot document : nextQuerySnapshot){
                         Product product = document.toObject(Product.class);
                         nextProductList.add(product);
                     }
                     callback.onResult(nextProductList, pageNumber);
                     pageNumber++;
 
+                    int nextQuerySnapshotSize = nextQuerySnapshot.size() - 1;
                     if (nextProductList.size() < ITEMS_PER_PAGE) {
                         lastPageReached = true;
                     } else {
-                        lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                        lastVisible = nextQuerySnapshot.getDocuments().get(nextQuerySnapshotSize);
                     }
                 }
             } else {
