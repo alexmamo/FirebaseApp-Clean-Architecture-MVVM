@@ -54,7 +54,7 @@ public class ProductsFragment extends DaggerFragment implements Observer<PagedLi
     }
 
     private void loadProducts() {
-        viewModel.pagedListLiveData.observe(this, this);
+        viewModel.pagedListLiveData.observe(getViewLifecycleOwner(), this);
     }
 
     private void reloadProducts() {
