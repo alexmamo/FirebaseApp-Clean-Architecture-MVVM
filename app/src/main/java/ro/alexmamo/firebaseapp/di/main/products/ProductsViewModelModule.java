@@ -14,7 +14,7 @@ import ro.alexmamo.firebaseapp.di.AppViewModelFactory;
 import ro.alexmamo.firebaseapp.di.ViewModelKey;
 import ro.alexmamo.firebaseapp.main.products.ProductsViewModel;
 
-import static ro.alexmamo.firebaseapp.utils.Constants.ITEMS_PER_PAGE;
+import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCTS_PER_PAGE;
 
 @Module
 @SuppressWarnings("unused")
@@ -32,7 +32,7 @@ public abstract class ProductsViewModelModule {
     static PagedList.Config providePagedListConfig() {
         return new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
-                .setPageSize(ITEMS_PER_PAGE)
+                .setPageSize(PRODUCTS_PER_PAGE)
                 .build();
     }
 }

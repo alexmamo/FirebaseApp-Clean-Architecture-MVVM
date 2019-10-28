@@ -14,7 +14,7 @@ import java.util.List;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.ASCENDING;
 import static ro.alexmamo.firebaseapp.utils.Constants.ESCAPE_CHARACTER;
-import static ro.alexmamo.firebaseapp.utils.Constants.ITEMS_PER_PAGE;
+import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCTS_PER_PAGE;
 import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCT_NAME_PROPERTY;
 import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
@@ -28,7 +28,7 @@ public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
 
     ProductsDataSource(String searchText, CollectionReference productsRef) {
         this.searchText = searchText;
-        initialQuery = productsRef.orderBy(PRODUCT_NAME_PROPERTY, ASCENDING).limit(ITEMS_PER_PAGE);
+        initialQuery = productsRef.orderBy(PRODUCT_NAME_PROPERTY, ASCENDING).limit(PRODUCTS_PER_PAGE);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ProductsDataSource extends PageKeyedDataSource<Integer, Product> {
                     pageNumber++;
 
                     int nextQuerySnapshotSize = nextQuerySnapshot.size() - 1;
-                    if (nextProductList.size() < ITEMS_PER_PAGE) {
+                    if (nextProductList.size() < PRODUCTS_PER_PAGE) {
                         lastPageReached = true;
                     } else {
                         lastVisible = nextQuerySnapshot.getDocuments().get(nextQuerySnapshotSize);
