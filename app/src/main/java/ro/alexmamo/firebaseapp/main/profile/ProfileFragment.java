@@ -1,32 +1,28 @@
 package ro.alexmamo.firebaseapp.main.profile;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 
-import dagger.android.support.DaggerFragment;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.auth.User;
 import ro.alexmamo.firebaseapp.databinding.FragmentProfileBinding;
+import ro.alexmamo.firebaseapp.main.BaseFragment;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
-public class ProfileFragment extends DaggerFragment {
-    private FragmentProfileBinding fragmentProfileBinding;
-
-    @Nullable
+public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        fragmentProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, null, false);
+    protected int getFragmentLayout() {
+        return R.layout.fragment_profile;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         User user = getUserFromMainActivity();
         if (user != null) {
-            bindUserDataToNameTextView(user);
+            bindUserDataToViews(user);
         }
-        return fragmentProfileBinding.getRoot();
     }
 
     private User getUserFromMainActivity() {
@@ -37,7 +33,7 @@ public class ProfileFragment extends DaggerFragment {
         return null;
     }
 
-    private void bindUserDataToNameTextView(User user) {
-        fragmentProfileBinding.setUser(user);
+    private void bindUserDataToViews(User user) {
+        dataBinding.setUser(user);
     }
 }
