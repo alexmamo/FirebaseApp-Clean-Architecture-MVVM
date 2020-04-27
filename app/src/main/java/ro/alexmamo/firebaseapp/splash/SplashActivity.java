@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.auth.AuthActivity;
-import ro.alexmamo.firebaseapp.auth.User;
+import ro.alexmamo.firebaseapp.data.User;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.USER;

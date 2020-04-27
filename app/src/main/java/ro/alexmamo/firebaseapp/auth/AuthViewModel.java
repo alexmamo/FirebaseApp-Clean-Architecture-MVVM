@@ -7,6 +7,8 @@ import com.google.firebase.auth.AuthCredential;
 
 import javax.inject.Inject;
 
+import ro.alexmamo.firebaseapp.data.User;
+
 public class AuthViewModel extends ViewModel {
     private AuthRepository authRepository;
     LiveData<User> authenticatedUserLiveData;

@@ -9,9 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 
-public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
+import dagger.android.support.DaggerFragment;
+
+public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFragment {
     protected T dataBinding;
 
     @Nullable
@@ -22,4 +23,10 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
     }
 
     protected abstract int getFragmentLayout();
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        dataBinding = null;
+    }
 }

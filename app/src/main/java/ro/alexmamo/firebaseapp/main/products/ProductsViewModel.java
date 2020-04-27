@@ -11,6 +11,8 @@ import com.google.firebase.firestore.CollectionReference;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ro.alexmamo.firebaseapp.data.Product;
+
 import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCTS_REF;
 
 public class ProductsViewModel extends ViewModel {

@@ -1,4 +1,4 @@
-package ro.alexmamo.firebaseapp.auth;
+package ro.alexmamo.firebaseapp.data;
 
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
@@ -17,11 +17,11 @@ public class User implements Serializable {
     @Exclude
     public boolean isAuthenticated;
     @Exclude
-    boolean isNew, isCreated;
+    public boolean isNew, isCreated;
 
     public User() {}
 
-    User(String uid, String name, String email, String photoUrl) {
+    public User(String uid, String name, String email, String photoUrl) {
         this.uid = uid;
         this.name = name;
         this.email = email;

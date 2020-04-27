@@ -18,6 +18,7 @@ import androidx.paging.PagedList;
 import javax.inject.Inject;
 
 import ro.alexmamo.firebaseapp.R;
+import ro.alexmamo.firebaseapp.data.Product;
 import ro.alexmamo.firebaseapp.databinding.FragmentProductsBinding;
 import ro.alexmamo.firebaseapp.main.BaseFragment;
 

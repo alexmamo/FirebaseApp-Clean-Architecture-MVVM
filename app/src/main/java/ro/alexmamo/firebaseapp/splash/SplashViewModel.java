@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
-import ro.alexmamo.firebaseapp.auth.User;
+import ro.alexmamo.firebaseapp.data.User;
 
 public class SplashViewModel extends ViewModel {
     private SplashRepository splashRepository;

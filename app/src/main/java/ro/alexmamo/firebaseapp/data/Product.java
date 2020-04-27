@@ -1,4 +1,4 @@
-package ro.alexmamo.firebaseapp.main.products;
+package ro.alexmamo.firebaseapp.data;
 
 import androidx.annotation.Nullable;
 

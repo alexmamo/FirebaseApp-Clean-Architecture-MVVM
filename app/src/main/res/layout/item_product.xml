@@ -5,7 +5,7 @@
     <data class="ProductDataBinding">
         <variable
             name="product"
-            type="ro.alexmamo.firebaseapp.main.products.Product" />
+            type="ro.alexmamo.firebaseapp.data.Product" />
 
         <variable
             name="onProductClickListener"

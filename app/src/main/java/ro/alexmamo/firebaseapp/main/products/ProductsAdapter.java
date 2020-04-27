@@ -8,6 +8,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import ro.alexmamo.firebaseapp.data.Product;
 import ro.alexmamo.firebaseapp.databinding.ProductDataBinding;
 
 import static ro.alexmamo.firebaseapp.databinding.ProductDataBinding.*;

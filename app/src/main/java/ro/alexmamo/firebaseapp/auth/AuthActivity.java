@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.R;
+import ro.alexmamo.firebaseapp.data.User;
 import ro.alexmamo.firebaseapp.databinding.ActivityAuthBinding;
 import ro.alexmamo.firebaseapp.main.MainActivity;
 

@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ro.alexmamo.firebaseapp.auth.User;
+import ro.alexmamo.firebaseapp.data.User;
 
 @Module
 public class SplashModule {

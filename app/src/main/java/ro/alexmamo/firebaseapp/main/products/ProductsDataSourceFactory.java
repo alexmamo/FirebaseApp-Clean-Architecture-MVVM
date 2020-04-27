@@ -7,6 +7,8 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.google.firebase.firestore.CollectionReference;
 
+import ro.alexmamo.firebaseapp.data.Product;
+
 public class ProductsDataSourceFactory extends DataSource.Factory<Integer, Product> {
     private MutableLiveData<PageKeyedDataSource<Integer, Product>> liveData = new MutableLiveData<>();
     private String searchText;

@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import ro.alexmamo.firebaseapp.auth.User;
+import ro.alexmamo.firebaseapp.data.User;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.USERS_REF;
 import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;

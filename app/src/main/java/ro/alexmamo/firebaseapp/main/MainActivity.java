@@ -26,13 +26,13 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.auth.AuthActivity;
-import ro.alexmamo.firebaseapp.auth.User;
+import ro.alexmamo.firebaseapp.data.User;
 import ro.alexmamo.firebaseapp.databinding.ActivityMainBinding;
 import ro.alexmamo.firebaseapp.databinding.NavHeaderBinding;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.USER;
 
-public class MainActivity  extends DaggerAppCompatActivity implements FirebaseAuth.AuthStateListener,
+public class MainActivity extends DaggerAppCompatActivity implements FirebaseAuth.AuthStateListener,
         NavigationView.OnNavigationItemSelectedListener {
     @Inject GoogleSignInClient googleSignInClient;
     @Inject FirebaseAuth auth;

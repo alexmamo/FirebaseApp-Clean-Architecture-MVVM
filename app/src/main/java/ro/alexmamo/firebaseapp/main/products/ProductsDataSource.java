@@ -12,6 +12,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import ro.alexmamo.firebaseapp.data.Product;
+
 import static ro.alexmamo.firebaseapp.utils.Constants.ASCENDING;
 import static ro.alexmamo.firebaseapp.utils.Constants.ESCAPE_CHARACTER;
 import static ro.alexmamo.firebaseapp.utils.Constants.PRODUCTS_PER_PAGE;

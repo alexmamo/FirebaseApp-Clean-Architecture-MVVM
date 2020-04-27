@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import ro.alexmamo.firebaseapp.R;
-import ro.alexmamo.firebaseapp.auth.User;
+import ro.alexmamo.firebaseapp.data.User;
 import ro.alexmamo.firebaseapp.databinding.FragmentProfileBinding;
 import ro.alexmamo.firebaseapp.main.BaseFragment;
 import ro.alexmamo.firebaseapp.main.MainActivity;
