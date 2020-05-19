@@ -2,7 +2,6 @@ package ro.alexmamo.firebaseapp.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -20,10 +19,9 @@ import dagger.android.support.DaggerAppCompatActivity;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.data.User;
 import ro.alexmamo.firebaseapp.databinding.ActivityAuthBinding;
-import ro.alexmamo.firebaseapp.main.MainActivity;
 
+import static ro.alexmamo.firebaseapp.utils.Actions.gotoMainActivity;
 import static ro.alexmamo.firebaseapp.utils.Constants.RC_SIGN_IN;
-import static ro.alexmamo.firebaseapp.utils.Constants.USER;
 import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
 public class AuthActivity extends DaggerAppCompatActivity {
@@ -71,38 +69,33 @@ public class AuthActivity extends DaggerAppCompatActivity {
 
     private void signInWithGoogleAuthCredential(AuthCredential googleAuthCredential) {
         authViewModel.signInWithGoogle(googleAuthCredential);
-        authViewModel.authenticatedUserLiveData.observe(this, authenticatedUser -> {
-            if (authenticatedUser.isNew) {
-                createNewUser(authenticatedUser);
-            } else {
-                goToMainActivity(authenticatedUser);
+        authViewModel.authenticatedUserLiveData.observe(this, dataOrException -> {
+            if (dataOrException.data != null) {
+                User authenticatedUser = dataOrException.data;
+                if (authenticatedUser.isNew) {
+                    createNewUser(authenticatedUser);
+                } else {
+                    gotoMainActivity(this, authenticatedUser);
+                }
+            }
+
+            if (dataOrException.exception != null) {
+                logErrorMessage(dataOrException.exception.getMessage());
             }
         });
     }
 
     private void createNewUser(User authenticatedUser) {
         authViewModel.createUser(authenticatedUser);
-        authViewModel.createdUserLiveData.observe(this, user -> {
-            if (user.isCreated) {
-                displayWelcomeMessage(user.name);
+        authViewModel.createdUserLiveData.observe(this, dataOrException -> {
+            if (dataOrException.data != null) {
+                User createdUser = dataOrException.data;
+                gotoMainActivity(this, createdUser);
             }
-            goToMainActivity(user);
+
+            if (dataOrException.exception != null) {
+                logErrorMessage(dataOrException.exception.getMessage());
+            }
         });
-    }
-
-    private void displayWelcomeMessage(String name) {
-        String welcomeMessage = getWelcomeMessage(name);
-        Toast.makeText(this, welcomeMessage, Toast.LENGTH_LONG).show();
-    }
-
-    private String getWelcomeMessage(String name) {
-        return "Welcome " + name + "! Your account was successfully created!";
-    }
-
-    private void goToMainActivity(User user) {
-        Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-        intent.putExtra(USER, user);
-        startActivity(intent);
-        finish();
     }
 }

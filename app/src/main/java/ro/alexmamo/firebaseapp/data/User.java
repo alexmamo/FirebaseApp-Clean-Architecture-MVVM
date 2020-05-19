@@ -15,9 +15,7 @@ public class User implements Serializable {
     @ServerTimestamp
     public Date createdAt;
     @Exclude
-    public boolean isAuthenticated;
-    @Exclude
-    public boolean isNew, isCreated;
+    public boolean isNew;
 
     public User() {}
 

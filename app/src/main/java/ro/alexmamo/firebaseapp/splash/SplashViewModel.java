@@ -5,23 +5,23 @@ import androidx.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
+import ro.alexmamo.firebaseapp.data.DataOrException;
 import ro.alexmamo.firebaseapp.data.User;
 
 public class SplashViewModel extends ViewModel {
     private SplashRepository splashRepository;
-    LiveData<User> isUserAuthenticatedLiveData;
-    LiveData<User> userLiveData;
+    LiveData<DataOrException<User, Exception>> userLiveData;
 
     @Inject
     SplashViewModel(SplashRepository splashRepository) {
         this.splashRepository = splashRepository;
     }
 
-    void checkIfUserIsAuthenticated() {
-        isUserAuthenticatedLiveData = splashRepository.checkIfUserIsAuthenticatedInFirebase();
+    String getUidIfUserIsAuthenticated() {
+        return splashRepository.getUidIfUserIsAuthenticatedInFirebase();
     }
 
     void setUid(String uid) {
-        userLiveData = splashRepository.addUserToLiveData(uid);
+        userLiveData = splashRepository.getUserFromFirestore(uid);
     }
 }

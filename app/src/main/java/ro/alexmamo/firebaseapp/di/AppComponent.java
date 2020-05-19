@@ -13,7 +13,6 @@ import ro.alexmamo.firebaseapp.di.auth.AuthModule;
 import ro.alexmamo.firebaseapp.di.auth.AuthViewModelModule;
 import ro.alexmamo.firebaseapp.di.main.products.ProductsModule;
 import ro.alexmamo.firebaseapp.di.main.products.ProductsViewModelModule;
-import ro.alexmamo.firebaseapp.di.splash.SplashModule;
 import ro.alexmamo.firebaseapp.di.splash.SplashViewModelModule;
 
 @Singleton
@@ -22,7 +21,7 @@ import ro.alexmamo.firebaseapp.di.splash.SplashViewModelModule;
                 AndroidSupportInjectionModule.class,
                 AppModule.class,
                 ActivityBuildersModule.class,
-                SplashModule.class, SplashViewModelModule.class,
+                SplashViewModelModule.class,
                 AuthModule.class, AuthViewModelModule.class,
                 ProductsModule.class, ProductsViewModelModule.class
         }

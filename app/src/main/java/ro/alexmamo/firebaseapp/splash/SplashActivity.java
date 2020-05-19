@@ -1,16 +1,15 @@
 package ro.alexmamo.firebaseapp.splash;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
-import ro.alexmamo.firebaseapp.auth.AuthActivity;
 import ro.alexmamo.firebaseapp.data.User;
-import ro.alexmamo.firebaseapp.main.MainActivity;
 
-import static ro.alexmamo.firebaseapp.utils.Constants.USER;
+import static ro.alexmamo.firebaseapp.utils.Actions.gotoAuthActivity;
+import static ro.alexmamo.firebaseapp.utils.Actions.gotoMainActivity;
+import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
 public class SplashActivity extends DaggerAppCompatActivity {
     @Inject SplashViewModel splashViewModel;
@@ -18,37 +17,31 @@ public class SplashActivity extends DaggerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkIfUserIsAuthenticated();
+        getUid();
     }
 
-    private void checkIfUserIsAuthenticated() {
-        splashViewModel.checkIfUserIsAuthenticated();
-        splashViewModel.isUserAuthenticatedLiveData.observe(this, user -> {
-            if (!user.isAuthenticated) {
-                goToAuthInActivity();
+    private void getUid() {
+        String uid = splashViewModel.getUidIfUserIsAuthenticated();
+        if (uid != null) {
+            getUserData(uid);
+        } else {
+            gotoAuthActivity(this);
+            finish();
+        }
+    }
+
+    private void getUserData(String uid) {
+        splashViewModel.setUid(uid);
+        splashViewModel.userLiveData.observe(this, dataOrException -> {
+            if (dataOrException.data != null) {
+                User user = dataOrException.data;
+                gotoMainActivity(this, user);
                 finish();
-            } else {
-                getUserFromDatabase(user.uid);
+            }
+
+            if (dataOrException.exception != null) {
+                logErrorMessage(dataOrException.exception.getMessage());
             }
         });
-    }
-
-    private void goToAuthInActivity() {
-        Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
-        startActivity(intent);
-    }
-
-    private void getUserFromDatabase(String uid) {
-        splashViewModel.setUid(uid);
-        splashViewModel.userLiveData.observe(this, user -> {
-            goToMainActivity(user);
-            finish();
-        });
-    }
-
-    private void goToMainActivity(User user) {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        intent.putExtra(USER, user);
-        startActivity(intent);
     }
 }

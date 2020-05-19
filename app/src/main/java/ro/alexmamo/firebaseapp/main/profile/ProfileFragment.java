@@ -26,7 +26,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     }
 
     private User getUserFromMainActivity() {
-        MainActivity mainActivity =((MainActivity) getActivity());
+        MainActivity mainActivity = ((MainActivity) getActivity());
         if (mainActivity != null) {
             return mainActivity.getUserFromIntent();
         }

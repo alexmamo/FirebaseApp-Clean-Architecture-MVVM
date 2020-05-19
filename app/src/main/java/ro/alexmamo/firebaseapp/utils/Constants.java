@@ -1,7 +1,5 @@
 package ro.alexmamo.firebaseapp.utils;
 
-import com.google.firebase.firestore.Query;
-
 public interface Constants {
     String TAG = "FirebaseAppTag";
     int RC_SIGN_IN = 123;
@@ -13,7 +11,7 @@ public interface Constants {
     String PRODUCTS_REF = "productsRef";
     String PRODUCT_NAME_PROPERTY = "name";
     String USER = "user";
-    Query.Direction ASCENDING = Query.Direction.ASCENDING;
+    String WELCOME = "Welcome ";
     String YOU_ARE_LOGGED_IN_AS = "You are logged in as: ";
     String YOUR_UID_IS = "Your Uid is: ";
 }

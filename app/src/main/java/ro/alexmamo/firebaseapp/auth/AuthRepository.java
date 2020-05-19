@@ -7,75 +7,68 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-
-import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import ro.alexmamo.firebaseapp.data.DataOrException;
 import ro.alexmamo.firebaseapp.data.User;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.USERS_REF;
-import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
 
 @SuppressWarnings("ConstantConditions")
 @Singleton
 class AuthRepository {
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth auth;
     private CollectionReference usersRef;
 
     @Inject
-    AuthRepository(FirebaseAuth firebaseAuth, @Named(USERS_REF) CollectionReference usersRef) {
-        this.firebaseAuth = firebaseAuth;
+    AuthRepository(FirebaseAuth auth, @Named(USERS_REF) CollectionReference usersRef) {
+        this.auth = auth;
         this.usersRef = usersRef;
     }
 
-    MutableLiveData<User> firebaseSignInWithGoogle(AuthCredential googleAuthCredential) {
-        MutableLiveData<User> authenticatedUserMutableLiveData = new MutableLiveData<>();
-        firebaseAuth.signInWithCredential(googleAuthCredential).addOnCompleteListener(authTask -> {
+    MutableLiveData<DataOrException<User, Exception>> firebaseSignInWithGoogle(AuthCredential googleAuthCredential) {
+        MutableLiveData<DataOrException<User, Exception>> dataOrExceptionMutableLiveData = new MutableLiveData<>();
+        auth.signInWithCredential(googleAuthCredential).addOnCompleteListener(authTask -> {
+            DataOrException<User, Exception> dataOrException = new DataOrException<>();
             if (authTask.isSuccessful()) {
                 boolean isNewUser = authTask.getResult().getAdditionalUserInfo().isNewUser();
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                FirebaseUser firebaseUser = auth.getCurrentUser();
                 if (firebaseUser != null) {
-                    String uid = firebaseUser.getUid();
-                    String name = firebaseUser.getDisplayName();
-                    String email = firebaseUser.getEmail();
-                    String photoUrl = Objects.requireNonNull(firebaseUser.getPhotoUrl()).toString();
-                    User user = new User(uid, name, email, photoUrl);
+                    User user = getUser(firebaseUser);
                     user.isNew = isNewUser;
-                    authenticatedUserMutableLiveData.setValue(user);
+                    dataOrException.data = user;
                 }
             } else {
-                logErrorMessage(authTask.getException().getMessage());
+                dataOrException.exception = authTask.getException();
             }
+            dataOrExceptionMutableLiveData.setValue(dataOrException);
         });
-        return authenticatedUserMutableLiveData;
+        return dataOrExceptionMutableLiveData;
     }
 
-    MutableLiveData<User> createUserInFirestoreIfNotExists(User authenticatedUser) {
-        MutableLiveData<User> newUserMutableLiveData = new MutableLiveData<>();
+    private User getUser(FirebaseUser firebaseUser) {
+        String uid = firebaseUser.getUid();
+        String name = firebaseUser.getDisplayName();
+        String email = firebaseUser.getEmail();
+        String photoUrl = firebaseUser.getPhotoUrl().toString();
+        return new User(uid, name, email, photoUrl);
+    }
+
+    MutableLiveData<DataOrException<User, Exception>> createUserInFirestore(User authenticatedUser) {
+        MutableLiveData<DataOrException<User, Exception>> dataOrExceptionMutableLiveData = new MutableLiveData<>();
         DocumentReference uidRef = usersRef.document(authenticatedUser.uid);
-        uidRef.get().addOnCompleteListener(uidTask -> {
-            if (uidTask.isSuccessful()) {
-                DocumentSnapshot document = uidTask.getResult();
-                if (!document.exists()) {
-                    uidRef.set(authenticatedUser).addOnCompleteListener(userCreationTask -> {
-                        if (userCreationTask.isSuccessful()) {
-                            authenticatedUser.isCreated = true;
-                            newUserMutableLiveData.setValue(authenticatedUser);
-                        } else {
-                            logErrorMessage(userCreationTask.getException().getMessage());
-                        }
-                    });
-                } else {
-                    newUserMutableLiveData.setValue(authenticatedUser);
-                }
+        uidRef.set(authenticatedUser).addOnCompleteListener(userCreationTask -> {
+            DataOrException<User, Exception> dataOrException = new DataOrException<>();
+            if (userCreationTask.isSuccessful()) {
+                dataOrException.data = authenticatedUser;
             } else {
-                logErrorMessage(uidTask.getException().getMessage());
+                dataOrException.exception = userCreationTask.getException();
             }
+            dataOrExceptionMutableLiveData.setValue(dataOrException);
         });
-        return newUserMutableLiveData;
+        return dataOrExceptionMutableLiveData;
     }
 }
