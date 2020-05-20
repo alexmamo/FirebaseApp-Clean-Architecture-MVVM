@@ -1,6 +1,10 @@
 package ro.alexmamo.firebaseapp.utils;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
+import ro.alexmamo.firebaseapp.data.User;
 
 import static ro.alexmamo.firebaseapp.utils.Constants.TAG;
 import static ro.alexmamo.firebaseapp.utils.Constants.WELCOME;
@@ -16,8 +20,11 @@ public class HelperClass {
         return productName.substring(0, 1).toUpperCase() + productName.substring(1);
     }
 
-    public static String getWelcomeMessage(String name) {
-        return WELCOME + name;
+    public static void displayWelcomeMessageIfUserIsNew(User user, Context context) {
+        if (user.isNew) {
+            String welcomeMessage = WELCOME + user.name;
+            Toast.makeText(context, welcomeMessage, Toast.LENGTH_LONG).show();
+        }
     }
 
     public static String getLoggedInMessage(String name) {

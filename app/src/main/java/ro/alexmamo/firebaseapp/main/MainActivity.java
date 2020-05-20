@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -31,22 +30,22 @@ import ro.alexmamo.firebaseapp.databinding.NavHeaderBinding;
 
 import static ro.alexmamo.firebaseapp.utils.Actions.gotoAuthActivity;
 import static ro.alexmamo.firebaseapp.utils.Constants.USER;
-import static ro.alexmamo.firebaseapp.utils.HelperClass.getWelcomeMessage;
+import static ro.alexmamo.firebaseapp.utils.HelperClass.displayWelcomeMessageIfUserIsNew;
 
 public class MainActivity extends DaggerAppCompatActivity implements FirebaseAuth.AuthStateListener,
         NavigationView.OnNavigationItemSelectedListener {
     @Inject GoogleSignInClient googleSignInClient;
     @Inject FirebaseAuth firebaseAuth;
+    private ActivityMainBinding activityMainBinding;
     private DrawerLayout drawerLayout;
     private NavController navController;
-    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         User user = getUserFromIntent();
-        displayWelcomeMessageIfUserIsNew(user);
+        displayWelcomeMessageIfUserIsNew(user, this);
         bindUserDataToHeaderView(user);
         initToolBar();
         initNavigationDrawer();
@@ -54,13 +53,6 @@ public class MainActivity extends DaggerAppCompatActivity implements FirebaseAut
 
     public User getUserFromIntent() {
         return (User) getIntent().getSerializableExtra(USER);
-    }
-
-    private void displayWelcomeMessageIfUserIsNew(User user) {
-        if (user.isNew) {
-            String welcomeMessage = getWelcomeMessage(user.name);
-            Toast.makeText(this, welcomeMessage, Toast.LENGTH_LONG).show();
-        }
     }
 
     public void bindUserDataToHeaderView(User user) {

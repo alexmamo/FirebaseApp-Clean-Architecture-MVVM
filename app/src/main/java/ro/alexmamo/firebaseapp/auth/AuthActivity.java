@@ -2,6 +2,7 @@ package ro.alexmamo.firebaseapp.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -20,6 +21,8 @@ import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.data.User;
 import ro.alexmamo.firebaseapp.databinding.ActivityAuthBinding;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static ro.alexmamo.firebaseapp.utils.Actions.gotoMainActivity;
 import static ro.alexmamo.firebaseapp.utils.Constants.RC_SIGN_IN;
 import static ro.alexmamo.firebaseapp.utils.HelperClass.logErrorMessage;
@@ -28,16 +31,21 @@ public class AuthActivity extends DaggerAppCompatActivity {
     @Inject GoogleSignInClient googleSignInClient;
     @Inject AuthViewModel authViewModel;
     private ActivityAuthBinding activityAuthBinding;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityAuthBinding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
+        progressBar = activityAuthBinding.progressBar;
         initSignInButton();
     }
 
     private void initSignInButton() {
-        activityAuthBinding.googleSignInButton.setOnClickListener(view -> signIn());
+        activityAuthBinding.googleSignInButton.setOnClickListener(view -> {
+            displayProgressBar();
+            signIn();
+        });
     }
 
     private void signIn() {
@@ -74,8 +82,10 @@ public class AuthActivity extends DaggerAppCompatActivity {
                 User authenticatedUser = dataOrException.data;
                 if (authenticatedUser.isNew) {
                     createNewUser(authenticatedUser);
+                    displayProgressBar();
                 } else {
                     gotoMainActivity(this, authenticatedUser);
+                    hideProgressBar();
                 }
             }
 
@@ -91,11 +101,24 @@ public class AuthActivity extends DaggerAppCompatActivity {
             if (dataOrException.data != null) {
                 User createdUser = dataOrException.data;
                 gotoMainActivity(this, createdUser);
+                hideProgressBar();
             }
 
             if (dataOrException.exception != null) {
                 logErrorMessage(dataOrException.exception.getMessage());
             }
         });
+    }
+
+    private void displayProgressBar() {
+        if (progressBar.getVisibility() == GONE) {
+            progressBar.setVisibility(VISIBLE);
+        }
+    }
+
+    private void hideProgressBar() {
+        if (progressBar.getVisibility() == VISIBLE) {
+            progressBar.setVisibility(GONE);
+        }
     }
 }

@@ -26,7 +26,6 @@ public class SplashActivity extends DaggerAppCompatActivity {
             getUserData(uid);
         } else {
             gotoAuthActivity(this);
-            finish();
         }
     }
 
@@ -36,7 +35,6 @@ public class SplashActivity extends DaggerAppCompatActivity {
             if (dataOrException.data != null) {
                 User user = dataOrException.data;
                 gotoMainActivity(this, user);
-                finish();
             }
 
             if (dataOrException.exception != null) {
