@@ -17,11 +17,15 @@ public class SplashViewModel extends ViewModel {
         this.splashRepository = splashRepository;
     }
 
-    String getUidIfUserIsAuthenticated() {
-        return splashRepository.getUidIfUserIsAuthenticatedInFirebase();
+    boolean checkIfUserIsAuthenticated() {
+        return splashRepository.checkIfUserIsAuthenticatedInFirebase();
+    }
+
+    String getUid() {
+        return splashRepository.getFirebaseUserUid();
     }
 
     void setUid(String uid) {
-        userLiveData = splashRepository.getUserFromFirestore(uid);
+        userLiveData = splashRepository.getUserDataFromFirestore(uid);
     }
 }

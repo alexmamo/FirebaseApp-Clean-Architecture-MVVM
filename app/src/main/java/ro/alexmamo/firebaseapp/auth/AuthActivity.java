@@ -42,10 +42,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
     }
 
     private void initSignInButton() {
-        activityAuthBinding.googleSignInButton.setOnClickListener(view -> {
-            displayProgressBar();
-            signIn();
-        });
+        activityAuthBinding.googleSignInButton.setOnClickListener(view -> signIn());
     }
 
     private void signIn() {
@@ -76,13 +73,13 @@ public class AuthActivity extends DaggerAppCompatActivity {
     }
 
     private void signInWithGoogleAuthCredential(AuthCredential googleAuthCredential) {
+        displayProgressBar();
         authViewModel.signInWithGoogle(googleAuthCredential);
         authViewModel.authenticatedUserLiveData.observe(this, dataOrException -> {
             if (dataOrException.data != null) {
                 User authenticatedUser = dataOrException.data;
                 if (authenticatedUser.isNew) {
                     createNewUser(authenticatedUser);
-                    displayProgressBar();
                 } else {
                     gotoMainActivity(this, authenticatedUser);
                     hideProgressBar();
@@ -96,6 +93,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
     }
 
     private void createNewUser(User authenticatedUser) {
+        displayProgressBar();
         authViewModel.createUser(authenticatedUser);
         authViewModel.createdUserLiveData.observe(this, dataOrException -> {
             if (dataOrException.data != null) {

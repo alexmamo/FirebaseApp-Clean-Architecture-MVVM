@@ -18,11 +18,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
+import ro.alexmamo.firebaseapp.OnAuthStateChangeListener;
 import ro.alexmamo.firebaseapp.R;
 import ro.alexmamo.firebaseapp.data.User;
 import ro.alexmamo.firebaseapp.databinding.ActivityMainBinding;
@@ -32,10 +32,11 @@ import static ro.alexmamo.firebaseapp.utils.Actions.gotoAuthActivity;
 import static ro.alexmamo.firebaseapp.utils.Constants.USER;
 import static ro.alexmamo.firebaseapp.utils.HelperClass.displayWelcomeMessageIfUserIsNew;
 
-public class MainActivity extends DaggerAppCompatActivity implements FirebaseAuth.AuthStateListener,
+public class MainActivity extends DaggerAppCompatActivity implements OnAuthStateChangeListener,
         NavigationView.OnNavigationItemSelectedListener {
     @Inject GoogleSignInClient googleSignInClient;
     @Inject FirebaseAuth firebaseAuth;
+    @Inject MainViewModel mainViewModel;
     private ActivityMainBinding activityMainBinding;
     private DrawerLayout drawerLayout;
     private NavController navController;
@@ -44,6 +45,7 @@ public class MainActivity extends DaggerAppCompatActivity implements FirebaseAut
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mainViewModel.setAuthStateChangeListener(this);
         User user = getUserFromIntent();
         displayWelcomeMessageIfUserIsNew(user, this);
         bindUserDataToHeaderView(user);
@@ -114,36 +116,21 @@ public class MainActivity extends DaggerAppCompatActivity implements FirebaseAut
     }
 
     @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser == null) {
-            gotoAuthActivity(this);
-        }
-    }
-
-    private void signOut() {
-        singOutFirebase();
-        signOutGoogle();
-    }
-
-    private void singOutFirebase() {
-        firebaseAuth.signOut();
-    }
-
-    private void signOutGoogle() {
-        googleSignInClient.signOut();
+    public void onAuthStateChanged(boolean isUserLoggedOut) {
+        gotoAuthActivity(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseAuth.addAuthStateListener(this);
+        mainViewModel.addAuthListener();
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        firebaseAuth.removeAuthStateListener(this);
+        mainViewModel.removeAuthListener();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -154,7 +141,7 @@ public class MainActivity extends DaggerAppCompatActivity implements FirebaseAut
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.sign_out_button) {
-            signOut();
+            mainViewModel.signOut();
             return true;
         }
         return super.onOptionsItemSelected(menuItem);

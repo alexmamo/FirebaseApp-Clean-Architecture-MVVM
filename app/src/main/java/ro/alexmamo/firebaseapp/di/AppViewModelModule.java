@@ -7,6 +7,7 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
 import ro.alexmamo.firebaseapp.auth.AuthViewModel;
+import ro.alexmamo.firebaseapp.main.MainViewModel;
 import ro.alexmamo.firebaseapp.main.products.ProductsViewModel;
 import ro.alexmamo.firebaseapp.splash.SplashViewModel;
 
@@ -25,6 +26,11 @@ abstract class AppViewModelModule {
     @IntoMap
     @ViewModelKey(SplashViewModel.class)
     abstract ViewModel provideSplashViewModel(SplashViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel.class)
+    abstract ViewModel provideMainViewModel(MainViewModel viewModel);
 
     @Binds
     @IntoMap

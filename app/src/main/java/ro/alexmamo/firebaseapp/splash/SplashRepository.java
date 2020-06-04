@@ -28,16 +28,16 @@ class SplashRepository {
         this.usersRef = usersRef;
     }
 
-    String getUidIfUserIsAuthenticatedInFirebase() {
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-        if (firebaseUser != null) {
-            return firebaseUser.getUid();
-        } else {
-            return null;
-        }
+    boolean checkIfUserIsAuthenticatedInFirebase() {
+        return auth.getCurrentUser() != null;
     }
 
-    MutableLiveData<DataOrException<User, Exception>> getUserFromFirestore(String uid) {
+    String getFirebaseUserUid() {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        return firebaseUser.getUid();
+    }
+
+    MutableLiveData<DataOrException<User, Exception>> getUserDataFromFirestore(String uid) {
         MutableLiveData<DataOrException<User, Exception>> userMutableLiveData = new MutableLiveData<>();
         usersRef.document(uid).get().addOnCompleteListener(userTask -> {
             DataOrException<User, Exception> dataOrException = new DataOrException<>();

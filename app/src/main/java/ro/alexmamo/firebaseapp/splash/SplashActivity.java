@@ -17,12 +17,13 @@ public class SplashActivity extends DaggerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getUid();
+        checkIfUserIsAuthenticated();
     }
 
-    private void getUid() {
-        String uid = splashViewModel.getUidIfUserIsAuthenticated();
-        if (uid != null) {
+    private void checkIfUserIsAuthenticated() {
+        boolean isUserAuthenticated = splashViewModel.checkIfUserIsAuthenticated();
+        if (isUserAuthenticated) {
+            String uid = splashViewModel.getUid();
             getUserData(uid);
         } else {
             gotoAuthActivity(this);
